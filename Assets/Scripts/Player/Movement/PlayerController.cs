@@ -1,18 +1,20 @@
 using UnityEngine;
 using UnityEngine.Serialization;
 
+using UnityEngine;
+
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private JoystickInput joystickInput;
+
     private PlayerMovement movement;
-    
     private Vector2 latestJoystick;
-    
+
     private void Awake()
     {
         movement = GetComponent<PlayerMovement>();
     }
-    
+
     private void OnEnable()
     {
         if (joystickInput != null)
@@ -25,18 +27,17 @@ public class PlayerController : MonoBehaviour
             joystickInput.OnJoystickMoveDirection -= HandleJoystickDirection;
     }
 
+    private void HandleJoystickDirection(Vector2 direction)
+    {
+        latestJoystick = direction;
+    }
+
     private void Update()
     {
-        // create a command from the current input 
         MoveCommand command = new MoveCommand(latestJoystick);
-        // execute the command with PlayerMovement
+
         if (movement != null)
             movement.Move(command.Direction);
     }
-
-    private void HandleJoystickDirection(Vector2 direction)
-    {
-        // save latest joystick direction to apply each frame
-        latestJoystick = direction;
-    }
 }
+

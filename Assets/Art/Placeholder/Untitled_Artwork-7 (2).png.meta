@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 68e59eb24498f4f4788780b564f04952
+guid: 318e4d5a2bb26654a9bc8f1a31a7e9e6
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6744471116673202054
-    second: landscapeUI_0
+      213: 7720287105644663950
+    second: Untitled_Artwork-7 (2)_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,7 +100,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: landscapeUI_0
+      name: Untitled_Artwork-7 (2)_0
       rect:
         serializedVersion: 2
         x: 0
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 68730333fbc299d50800000000000000
-      internalID: 6744471116673202054
+      spriteID: e849afff738f32b60800000000000000
+      internalID: 7720287105644663950
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      landscapeUI_0: 6744471116673202054
+      Untitled_Artwork-7 (2)_0: 7720287105644663950
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

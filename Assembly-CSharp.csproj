@@ -47,10 +47,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Input\JoystickInput.cs" />
+    <Compile Include="Assets\Scripts\Bullet\Bullet.cs" />
     <Compile Include="Assets\Scripts\Player\Movement\MoveCommand.cs" />
     <Compile Include="Assets\Scripts\Player\Movement\PlayerMovement.cs" />
     <Compile Include="Assets\Scripts\Input\JoystickView.cs" />
     <Compile Include="Assets\Scripts\Input\JoystickModel.cs" />
+    <Compile Include="Assets\Scripts\Bullet\BulletTypeSO.cs" />
+    <Compile Include="Assets\Scripts\ITickable.cs" />
     <Compile Include="Assets\Scripts\Player\Movement\PlayerController.cs" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
     <None Include="Library\PackageCache\com.unity.burst@1df634d836b8\package.json" />

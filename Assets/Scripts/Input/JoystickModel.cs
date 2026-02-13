@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class JoystickModel : MonoBehaviour
+public class JoystickModel
 {
    public Vector2 direction {get; private set;}
    public bool isActive {get; private set;}
