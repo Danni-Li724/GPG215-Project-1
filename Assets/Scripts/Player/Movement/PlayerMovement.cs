@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 6f;
-    [SerializeField] private PolygonCollider2D confiner;
+    [SerializeField] private BoxCollider2D confiner;
 
     private Rigidbody2D rb;
     private Vector2 moveInput;

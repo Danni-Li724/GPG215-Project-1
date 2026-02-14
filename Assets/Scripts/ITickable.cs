@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ITickable
+public interface ITickable
 {
    public void Tick(float deltaTime)
    {
