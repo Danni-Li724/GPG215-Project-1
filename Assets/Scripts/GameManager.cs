@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
    public PlayerShooter playerShooter;
    public HitVFXPoolManager hitVFXPoolManager;
    public EnemyManager enemyManager;
+   public MileageSystem mileageSystem;
    private readonly List<ITickable> tickables = new List<ITickable>(6);
    private void Awake()
    {
@@ -28,6 +29,7 @@ public class GameManager : MonoBehaviour
        if (playerShooter != null) tickables.Add(playerShooter);
        if (bulletManager != null) tickables.Add(bulletManager);
        if (enemyManager != null) tickables.Add(enemyManager);
+       if (mileageSystem != null) tickables.Add(mileageSystem);
    }
 
 

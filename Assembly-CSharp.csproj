@@ -61,6 +61,7 @@
     <Compile Include="Assets\Scripts\Combat\EnemyManager.cs" />
     <Compile Include="Assets\Scripts\Combat\BulletManager.cs" />
     <Compile Include="Assets\Scripts\ITickable.cs" />
+    <Compile Include="Assets\Scripts\UI\MileageSystem.cs" />
     <Compile Include="Assets\Scripts\Combat\EnemyPool.cs" />
     <Compile Include="Assets\Scripts\IDamageable.cs" />
     <Compile Include="Assets\Scripts\Combat\Test.cs" />
