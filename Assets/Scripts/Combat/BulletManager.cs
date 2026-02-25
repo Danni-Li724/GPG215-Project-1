@@ -6,7 +6,7 @@ public sealed class BulletManager : MonoBehaviour, ITickable
     [SerializeField] private BulletPool pool;
     private readonly List<Bullet> active = new List<Bullet>(256);
 
-    public void Spawn(BulletTypeSO type, Vector2 position, Vector2 direction)
+    public void SpawnBullet(BulletTypeSO type, Vector2 position, Vector2 direction)
     {
         Bullet bullet = pool.Get();
         bullet.Activate(type, position, direction);

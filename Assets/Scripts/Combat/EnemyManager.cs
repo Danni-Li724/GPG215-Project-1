@@ -6,7 +6,7 @@ public class EnemyManager : MonoBehaviour, ITickable
     [SerializeField] private EnemyPool pool;
     [SerializeField] private Transform player;
 
-    [Header("Spawn Settings")]
+    [Header("SpawnBullet Settings")]
     [SerializeField] private float spawnEverySeconds = 1.0f;
     [SerializeField] private float spawnRadius = 6f;
     [SerializeField] private Transform spawnPos;
@@ -36,16 +36,36 @@ public class EnemyManager : MonoBehaviour, ITickable
                 active.RemoveAt(i);
         }
     }
+    // public void SpawnTestEnemy()
+    // {
+    //     if (pool == null || player == null)
+    //         return;
+    //
+    //     Vector2 center = player.position;
+    //     Vector2 offset = Random.insideUnitCircle.normalized * spawnRadius;
+    //     // Vector2 pos = center + offset;
+    //     Vector2 pos = new Vector2(Random.Range(spawnPos.position.x - spawnRadius, spawnPos.position.x + spawnRadius), spawnPos.position.y);
+    //     TestEnemy enemy = pool.Get();
+    //     enemy.Activate(pos, player, pool);
+    //     active.Add(enemy);
+    // }
+    
     public void SpawnTestEnemy()
     {
         if (pool == null || player == null)
             return;
 
+        if (pool.PrefabCount <= 0)
+            return;
+
+        int randomIndex = Random.Range(0, pool.PrefabCount);
         Vector2 center = player.position;
         Vector2 offset = Random.insideUnitCircle.normalized * spawnRadius;
-        // Vector2 pos = center + offset;
         Vector2 pos = new Vector2(Random.Range(spawnPos.position.x - spawnRadius, spawnPos.position.x + spawnRadius), spawnPos.position.y);
-        TestEnemy enemy = pool.Get();
+        TestEnemy enemy = pool.Get(randomIndex);
+        if (enemy == null)
+            return;
+
         enemy.Activate(pos, player, pool);
         active.Add(enemy);
     }

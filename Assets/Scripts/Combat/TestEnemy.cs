@@ -4,7 +4,7 @@ public class TestEnemy : MonoBehaviour, ITickable, IDamageable, IHitVFXGetter
 {
     [SerializeField] private int maxHealth = 3;
     [SerializeField] private float speed = 1.0f;
-    [SerializeField] private HitVFXType hitVFXType = HitVFXType.Spark;
+    [SerializeField] private HitVFXType hitVFXType = HitVFXType.Default;
     public HitVFXType HitVFXType => hitVFXType;
 
     private int health;
@@ -61,4 +61,12 @@ public class TestEnemy : MonoBehaviour, ITickable, IDamageable, IHitVFXGetter
         if (pool != null)
             pool.Return(this);
     }
+    
+    public int PoolIndex { get; private set; }
+
+    public void SetPoolIndex(int index)
+    {
+        PoolIndex = index;
+    }
+
 }

@@ -1,12 +1,20 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class HitVFXPoolManager : MonoBehaviour, ITickable
 {
-    [SerializeField] private HitVFXLibrary library;
+    [FormerlySerializedAs("library")]
+    [Header("VFX")]
+    [SerializeField] private HitVFXLibrary vfxLibrary;
 
     private readonly Dictionary<HitVFXType, Queue<HitVFX>> pools =
         new Dictionary<HitVFXType, Queue<HitVFX>>();
+    
+    [Header("SFX (mapped to HitVFXType)")]
+    [SerializeField] private HitSFXLibrary hitSfxLibrary;
+    [SerializeField] private AudioSource hitSfxSource;
+    [SerializeField] private bool playHitSfx = true;
 
     public static HitVFXPoolManager Instance { get; private set; }
 
@@ -18,12 +26,12 @@ public class HitVFXPoolManager : MonoBehaviour, ITickable
 
     private void Prewarm()
     {
-        if (library == null)
+        if (vfxLibrary == null)
             return;
 
-        for (int i = 0; i < library.entries.Count; i++)
+        for (int i = 0; i < vfxLibrary.entries.Count; i++)
         {
-            HitVFXLibrary.Entry e = library.entries[i];
+            HitVFXLibrary.Entry e = vfxLibrary.entries[i];
             if (e == null || e.prefab == null || e.type == HitVFXType.None)
                 continue;
 
@@ -47,27 +55,40 @@ public class HitVFXPoolManager : MonoBehaviour, ITickable
 
     public void Spawn(HitVFXType type, Vector3 position)
     {
-        if (type == HitVFXType.None || library == null)
+        if (type == HitVFXType.None)
             return;
 
-        HitVFX prefab;
-        int prewarm;
-        if (!library.TryGetPrefab(type, out prefab, out prewarm))
-            return;
-
-        EnsurePool(type);
-
-        HitVFX vfx;
-        if (pools[type].Count > 0)
-            vfx = pools[type].Dequeue();
-        else
+        // VFX
+        if (vfxLibrary != null)
         {
-            vfx = Instantiate(prefab, transform);
-            vfx.Init(this, type);
-            vfx.gameObject.SetActive(false);
+            HitVFX prefab;
+            int prewarm;
+            if (vfxLibrary.TryGetPrefab(type, out prefab, out prewarm))
+            {
+                EnsurePool(type);
+
+                HitVFX vfx;
+                if (pools[type].Count > 0)
+                    vfx = pools[type].Dequeue();
+                else
+                {
+                    vfx = Instantiate(prefab, transform);
+                    vfx.Init(this, type);
+                    vfx.gameObject.SetActive(false);
+                }
+
+                vfx.PlayAt(position);
+            }
         }
 
-        vfx.PlayAt(position);
+        // SFX
+        if (playHitSfx && hitSfxLibrary != null && hitSfxSource != null)
+        {
+            AudioClip clip;
+            float volume;
+            if (hitSfxLibrary.TryGet(type, out clip, out volume))
+                hitSfxSource.PlayOneShot(clip, volume);
+        }
     }
 
     public void Return(HitVFXType type, HitVFX vfx)

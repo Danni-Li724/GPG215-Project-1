@@ -44,7 +44,7 @@ public sealed class PlayerShooter : MonoBehaviour, ITickable
             return;
         Vector2 spawnPos = muzzle.position;
         Vector2 direction = GetShootDirection();
-        bulletManager.Spawn(bulletType, spawnPos, direction);
+        bulletManager.SpawnBullet(bulletType, spawnPos, direction);
     }
 
     private Vector2 GetShootDirection()

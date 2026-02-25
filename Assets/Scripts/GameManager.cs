@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
    public HitVFXPoolManager hitVFXPoolManager;
    public EnemyManager enemyManager;
    public MileageSystem mileageSystem;
+   public DefaultRangerContext defaultRangerContext;
    private readonly List<ITickable> tickables = new List<ITickable>(6);
    private void Awake()
    {
@@ -30,6 +31,7 @@ public class GameManager : MonoBehaviour
        if (bulletManager != null) tickables.Add(bulletManager);
        if (enemyManager != null) tickables.Add(enemyManager);
        if (mileageSystem != null) tickables.Add(mileageSystem);
+       if (defaultRangerContext != null) tickables.Add(defaultRangerContext);
    }
 
 
