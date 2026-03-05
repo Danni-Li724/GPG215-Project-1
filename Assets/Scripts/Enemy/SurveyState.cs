@@ -10,12 +10,18 @@ public class SurveyState : State
     }
     public override void Enter()
     {
-        rangerContext.PickShootPoints();
+        // rangerContext.PickShootPoints();
+        rangerContext.BeginSurvey();
     }
 
     public override void Execute()
     {
-        rangerContext.RequestState(rangerContext.MoveState);
+       // rangerContext.RequestState(rangerContext.MoveState);
+       
+       if (!rangerContext.SurveyFinished())
+           return;
+       if (rangerContext.TryPickNextShootPoint())
+           rangerContext.RequestState(rangerContext.MoveState);
     }
 
     public override void Exit()

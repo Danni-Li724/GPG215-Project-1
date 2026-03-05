@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class TestEnemy : MonoBehaviour, ITickable, IDamageable, IHitVFXGetter
+public class TestEnemy : MonoBehaviour, ITickable, IDamageable, IHitVFXGetter, IPoolableEnemy
 {
     [SerializeField] private int maxHealth = 3;
     [SerializeField] private float speed = 1.0f;

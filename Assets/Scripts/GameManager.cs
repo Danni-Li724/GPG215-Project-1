@@ -26,7 +26,6 @@ public class GameManager : MonoBehaviour
    private void BuildTickableList()
    {
        tickables.Clear();
-
        if (playerShooter != null) tickables.Add(playerShooter);
        if (bulletManager != null) tickables.Add(bulletManager);
        if (enemyManager != null) tickables.Add(enemyManager);

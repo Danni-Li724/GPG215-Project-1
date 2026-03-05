@@ -73,6 +73,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity.InternalAPIEditorBrid
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity.2D.PixelPerfect.Editor", "Unity.2D.PixelPerfect.Editor.csproj", "{183cee7e-1a94-d840-e510-2d547cda6ca8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-firstpass", "Assembly-CSharp-firstpass.csproj", "{f5d0d1c2-2656-034b-b452-81bde6f63a09}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity.InputSystem.ForUI", "Unity.InputSystem.ForUI.csproj", "{89db2e17-18a5-8c3e-db32-5b0c2fc88311}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity.Collections.CodeGen", "Unity.Collections.CodeGen.csproj", "{09e92bc7-37cb-b8f2-76d4-61bf03bad52b}"
@@ -214,6 +216,8 @@ Global
 		{9ddfefad-8cd0-8913-f54f-f27e935e68e7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{183cee7e-1a94-d840-e510-2d547cda6ca8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{183cee7e-1a94-d840-e510-2d547cda6ca8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{f5d0d1c2-2656-034b-b452-81bde6f63a09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{f5d0d1c2-2656-034b-b452-81bde6f63a09}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{89db2e17-18a5-8c3e-db32-5b0c2fc88311}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{89db2e17-18a5-8c3e-db32-5b0c2fc88311}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{09e92bc7-37cb-b8f2-76d4-61bf03bad52b}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
