@@ -13,13 +13,14 @@ public class GameManager : MonoBehaviour
    public DefaultRangerContext defaultRangerContext;
    private readonly List<ITickable> tickables = new List<ITickable>();
    public PlayerLifeSystem playerLife;
+   [SerializeField] private List<LevelInfoSO> levels = new List<LevelInfoSO>();
    
    [Header("UIs")]
-   public LevelInfoSO levelInfo;
+   [SerializeField] private int currentLevelIndex = 0;
    public LevelInfoPanelUI levelInfoPanel;
    public GameOverPanelUI gameOverPanel;
    
-   private bool isRunning;
+   public bool isRunning;
    
    private void Awake()
    {
@@ -33,8 +34,8 @@ public class GameManager : MonoBehaviour
        BuildTickableList();
        // SoundManager.instance.SetGameState();
        isRunning = false;
-       if (levelInfoPanel != null && levelInfo != null)
-           levelInfoPanel.Show(levelInfo);
+       if (levelInfoPanel != null && CurrentLevel != null)
+           levelInfoPanel.Show(CurrentLevel);
    }
    
    private void BuildTickableList()
@@ -62,6 +63,18 @@ public class GameManager : MonoBehaviour
        for (int i = 0; i < tickables.Count; i++)
            tickables[i].Tick(dt);
    }
+   
+   public LevelInfoSO CurrentLevel
+   {
+       get
+       {
+           if (levels == null || levels.Count == 0)
+               return null;
+
+           currentLevelIndex = Mathf.Clamp(currentLevelIndex, 0, levels.Count - 1);
+           return levels[currentLevelIndex];
+       }
+   }
 
    public void GameOver(int livesLost)
    {
@@ -69,9 +82,28 @@ public class GameManager : MonoBehaviour
 
        int killed = (enemyManager != null) ? enemyManager.EnemiesKilled : 0;
        int traveled = (mileageSystem != null) ? mileageSystem.CurrentMiles : 0;
-       int goal = (levelInfo != null) ? levelInfo.mileageGoal : 0;
+       LevelInfoSO level = CurrentLevel;
+       int goal = (level != null) ? level.mileageGoal : 0;
        int remaining = Mathf.Max(0, goal - traveled);
        if (gameOverPanel != null)
            gameOverPanel.Show(killed, traveled, remaining, livesLost);
+   }
+   
+   public void GoToNextLevel()
+   {
+       if (levels == null || levels.Count == 0)
+           return;
+       currentLevelIndex += 1;
+       if (currentLevelIndex >= levels.Count)
+           currentLevelIndex = levels.Count - 1; 
+   }
+   
+   public void StartNextLevel()
+   {
+       GoToNextLevel();
+       // show next level panel again
+       isRunning = false;
+       if (levelInfoPanel != null && CurrentLevel != null)
+           levelInfoPanel.Show(CurrentLevel);
    }
 }

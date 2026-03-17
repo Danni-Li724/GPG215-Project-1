@@ -30,9 +30,4 @@ public class GameOverPanelUI : MonoBehaviour
 
         gameObject.SetActive(true);
     }
-
-    public void OnQuitClicked()
-    {
-        SceneManager.LoadScene("Menu");
-    }
 }

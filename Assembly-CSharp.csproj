@@ -88,6 +88,7 @@
     <Compile Include="Assets\Scripts\Game\SoundManager.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerCollectionSystem.cs" />
     <Compile Include="Assets\Scripts\Enemy\IPoolableEnemy.cs" />
+    <Compile Include="Assets\Scripts\UI\HUDUI.cs" />
     <Compile Include="Assets\Scripts\Enemy\ShootState.cs" />
     <Compile Include="Assets\Scripts\Enemy\HitVFXPoolManager.cs" />
     <Compile Include="Assets\Scripts\Enemy\Test.cs" />
