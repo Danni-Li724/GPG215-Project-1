@@ -87,12 +87,14 @@
     <Compile Include="Assets\Scripts\Enemy\LungeState.cs" />
     <Compile Include="Assets\Scripts\Game\SoundManager.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerCollectionSystem.cs" />
+    <Compile Include="Assets\Scripts\UI\ProceedToNextLevelPanel.cs" />
     <Compile Include="Assets\Scripts\Enemy\IPoolableEnemy.cs" />
     <Compile Include="Assets\Scripts\UI\HUDUI.cs" />
     <Compile Include="Assets\Scripts\Enemy\ShootState.cs" />
     <Compile Include="Assets\Scripts\Enemy\HitVFXPoolManager.cs" />
     <Compile Include="Assets\Scripts\Enemy\Test.cs" />
     <Compile Include="Assets\Scripts\Player\Movement\PlayerController.cs" />
+    <Compile Include="Assets\Scripts\Enemy\LevelBoss.cs" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile-2-Pass.shader" />
