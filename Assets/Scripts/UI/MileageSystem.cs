@@ -18,6 +18,7 @@ public class MileageSystem : MonoBehaviour, ITickable
 
     private float mileAccumulator;
     private int currentMiles;
+    public int CurrentMiles => currentMiles;
 
     private int nextMilestoneIndex;
 

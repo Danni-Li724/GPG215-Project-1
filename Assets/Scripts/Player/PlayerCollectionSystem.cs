@@ -39,4 +39,9 @@ public class PlayerCollectionSystem : MonoBehaviour
         if (lifeUI != null)
             lifeUI.PlayLifeCollectAnimationAndThenReveal(currentLives);
     }
+    
+    public void ForceSetLives(int newValue)
+    {
+        currentLives = Mathf.Clamp(newValue, 0, maxLives);
+    }
 }

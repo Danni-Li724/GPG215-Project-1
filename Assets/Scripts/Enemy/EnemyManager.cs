@@ -12,6 +12,7 @@ public class EnemyManager : MonoBehaviour, ITickable
     [SerializeField] private Transform spawnPos;
     private float spawnTimer;
     private readonly List<ITickable> active = new List<ITickable>(24);
+    public int EnemiesKilled { get; private set; }
 
     public void Tick(float dt)
     {
@@ -35,11 +36,10 @@ public class EnemyManager : MonoBehaviour, ITickable
             if (enemyMonobehaviour == null || !enemyMonobehaviour.gameObject.activeInHierarchy)
             {
                 active.RemoveAt(i);
+                EnemiesKilled += 1;
                 continue;
             }
             enemyTickable.Tick(dt);
-            if (!enemyMonobehaviour.gameObject.activeInHierarchy)
-                active.RemoveAt(i);
         }
     }
     // public void SpawnTestEnemy()

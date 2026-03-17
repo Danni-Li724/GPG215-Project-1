@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-public class DefaultRangerContext : MonoBehaviour, ITickable, IDamageable, IHitVFXGetter, IPoolableEnemy
+public class DefaultRangerContext : MonoBehaviour, ITickable, IDamageable, IHitVFXGetter, IPoolableEnemy, IDanger
 {
     [Header("States")]
     private State surveyState;
@@ -16,7 +18,7 @@ public class DefaultRangerContext : MonoBehaviour, ITickable, IDamageable, IHitV
     private bool initialized;
     
     [SerializeField] private Transform player;
-    [SerializeField] private BulletManager bulletManager;
+    [FormerlySerializedAs("bulletManager")] [SerializeField] private EnemyBulletManager enemyBulletManager;
     [SerializeField] private BulletTypeSO enemyBulletType;
     [SerializeField] private Transform firePoint;
     [SerializeField] private PolygonCollider2D moveArea;
@@ -90,8 +92,8 @@ public class DefaultRangerContext : MonoBehaviour, ITickable, IDamageable, IHitV
                 if (Player != null) player = Player.transform;
             }
 
-            if (bulletManager == null)
-                bulletManager = FindFirstObjectByType<BulletManager>();
+            if (enemyBulletManager == null)
+                enemyBulletManager = FindFirstObjectByType<EnemyBulletManager>();
 
             if (moveArea == null)
             {
@@ -234,7 +236,7 @@ public class DefaultRangerContext : MonoBehaviour, ITickable, IDamageable, IHitV
 
     private void FireOneAtPlayer()
     {
-        if (player == null || bulletManager == null || enemyBulletType == null)
+        if (player == null || enemyBulletManager == null || enemyBulletType == null)
             return;
 
         Vector2 from = GetFirePosition();
@@ -244,7 +246,7 @@ public class DefaultRangerContext : MonoBehaviour, ITickable, IDamageable, IHitV
             dir = Vector2.up;
         else
             dir.Normalize();
-        bulletManager.SpawnBullet(enemyBulletType, from, dir);
+        enemyBulletManager.Spawn(from, dir);
     }
 
     public void LungeTowardsPlayer()

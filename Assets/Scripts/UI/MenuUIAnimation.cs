@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -27,6 +28,8 @@ public class MenuUIAnimator : MonoBehaviour
     [SerializeField] private GameObject optionsPanel;
     [SerializeField] private RectTransform optionsPanelGraphic;
     [SerializeField] private RectTransform optionsPanelEnd;
+    [SerializeField] private float optionsPanelHideSeconds = 0.25f;
+    private Coroutine optionsPanelRoutine;
 
     [Header("Timings")]
     [SerializeField] private float imagesMoveDuration = 0.8f;
@@ -78,6 +81,7 @@ public class MenuUIAnimator : MonoBehaviour
     private void Start()
     {
         PlayIntro();
+        SoundManager.instance.SetMenuState();
     }
 
     public void PlayIntro()
@@ -127,7 +131,7 @@ public class MenuUIAnimator : MonoBehaviour
 
     public void OnStartPressed()
     {
-        // TODO: play a quick outro then load
+        // TODO: play a quick outro then load?
         KillAllTweens();
 
         Sequence outro = DOTween.Sequence();
@@ -145,6 +149,34 @@ public class MenuUIAnimator : MonoBehaviour
 
         Vector2 target = optionsOpen ? optionsPanelEnd.anchoredPosition : optionsPanelStartPos;
         optionsPanelGraphic.DOAnchorPos(target, optionsPanelMoveDuration).SetEase(optionsPanelEase);
+    }
+    
+    public void HideOptionsPanel()
+    {
+        if (optionsPanelRoutine != null)
+            StopCoroutine(optionsPanelRoutine);
+        optionsPanelRoutine = StartCoroutine(HideOptionsPanelRoutine());
+    }
+
+    private IEnumerator HideOptionsPanelRoutine()
+    {
+        if (!optionsPanelGraphic.gameObject.activeSelf)
+            yield break;
+        Vector2 from = optionsPanelGraphic.anchoredPosition;
+        Vector2 to = optionsPanelStartPos;
+        float duration = Mathf.Max(0.01f, optionsPanelHideSeconds);
+        float t = 0f;
+        while (t < 1f)
+        {
+            t += Time.unscaledDeltaTime / duration;
+            float u = Mathf.Clamp01(t);
+
+            optionsPanelGraphic.anchoredPosition = Vector2.Lerp(from, to, u);
+            yield return null;
+        }
+        optionsPanelGraphic.anchoredPosition = to;
+        optionsPanelRoutine = null;
+        ResetOptions();
     }
 
     private void StartIdlePop(RectTransform rt, ref Tween storeTween)
