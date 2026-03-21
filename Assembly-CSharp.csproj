@@ -61,7 +61,6 @@
     <Compile Include="Assets\Scripts\Behaviour\ZigZag.cs" />
     <Compile Include="Assets\Scripts\Game\ITickable.cs" />
     <Compile Include="Assets\Scripts\Game\GameManager.cs" />
-    <Compile Include="Assets\Scripts\UI\MenuUIAnimation.cs" />
     <Compile Include="Assets\Scripts\UI\GameOverPanel.cs" />
     <Compile Include="Assets\Scripts\Behaviour\Drift.cs" />
     <Compile Include="Assets\Scripts\Enemy\BaseClasher.cs" />
@@ -72,6 +71,7 @@
     <Compile Include="Assets\Scripts\Player\Movement\PlayerMovement.cs" />
     <Compile Include="Assets\Scripts\Enemy\BoomerangClasher.cs" />
     <Compile Include="Assets\Scripts\Behaviour\Bob.cs" />
+    <Compile Include="Assets\Scripts\UI\MenuUIAnimator.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerLifeSystem.cs" />
     <Compile Include="Assets\Scripts\Combat\Bullet.cs" />
     <Compile Include="Assets\Scripts\Enemy\EnemyPool.cs" />
