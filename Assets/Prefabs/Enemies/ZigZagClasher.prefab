@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 5771739067537053803}
   - component: {fileID: 5251177542556023081}
   - component: {fileID: 3944118791998229656}
-  - component: {fileID: 5469107133535966610}
+  - component: {fileID: 3175523849783534298}
+  - component: {fileID: 2682196703938168907}
   m_Layer: 6
-  m_Name: testenemy2
+  m_Name: ZigZagClasher
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -78,7 +79,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -5282911695883833476, guid: 3a60a5bc681a3204c9d286b185d534a3, type: 3}
+  m_Sprite: {fileID: 403005533434085257, guid: 3a60a5bc681a3204c9d286b185d534a3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -124,9 +125,9 @@ CapsuleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Size: {x: 1.5, y: 1.5}
+  m_Size: {x: 1.5, y: 2}
   m_Direction: 0
---- !u!114 &5469107133535966610
+--- !u!114 &3175523849783534298
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -135,9 +136,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 6233220089318036159}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91005a54a6b372d408e516b5e45bdd55, type: 3}
+  m_Script: {fileID: 11500000, guid: b7458bea3c34cba4382bc1a257b28893, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 20
-  speed: 1.2
+  maxHealth: 15
+  speed: 1
   hitVFXType: 2
+--- !u!114 &2682196703938168907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6233220089318036159}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb0de6386f741dd4d82b26c46a755503, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  forward: {x: 1, y: 0}
+  forwardSpeed: 1.5
+  zigAmplitude: 0.5
+  zigFrequency: 3

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class DefaultRangerContext : MonoBehaviour, ITickable, IDamageable, IHitVFXGetter, IPoolableEnemy, IDanger
+public class DefaultRangerContext : MonoBehaviour, ITickable, IDamageable, IHitVFXGetter, IPoolableEnemy, IDanger, IEnemyActivatable
 {
     [Header("States")]
     private State surveyState;

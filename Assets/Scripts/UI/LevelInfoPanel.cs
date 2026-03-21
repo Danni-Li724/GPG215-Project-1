@@ -12,10 +12,10 @@ public class LevelInfoPanelUI : MonoBehaviour
             return;
 
         if (levelNameText != null)
-            levelNameText.text = info.levelName;
+            levelNameText.text = "You are going to: " + info.levelName;
 
         if (mileageGoalText != null)
-            mileageGoalText.text = info.mileageGoal.ToString() + " miles";
+            mileageGoalText.text = "Distance: " + info.mileageGoal.ToString() + " miles";
 
         gameObject.SetActive(true);
     }

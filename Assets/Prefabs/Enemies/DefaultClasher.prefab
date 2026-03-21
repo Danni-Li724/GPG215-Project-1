@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3944118791998229656}
   - component: {fileID: 5469107133535966610}
   m_Layer: 6
-  m_Name: testenemy
+  m_Name: DefaultClasher
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

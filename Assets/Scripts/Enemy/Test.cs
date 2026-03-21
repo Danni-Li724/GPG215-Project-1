@@ -8,6 +8,7 @@ public class Test : MonoBehaviour
     public void Spawn()
     {
         if (enemyManager != null)
-            enemyManager.SpawnRandomEnemy();
+            // enemyManager.SpawnRandomEnemy();
+            enemyManager.SpawnInOrder();
     }
 }

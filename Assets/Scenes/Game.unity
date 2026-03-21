@@ -1375,7 +1375,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 114.74573}
-  m_SizeDelta: {x: 600, y: 60}
+  m_SizeDelta: {x: 900, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &180404625
 GameObject:
@@ -2867,7 +2867,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -4993,7 +4993,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 7}
-  m_SizeDelta: {x: 600, y: 60}
+  m_SizeDelta: {x: 900, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &838536513
 GameObject:
@@ -5447,9 +5447,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefabs:
   - {fileID: 5469107133535966610, guid: be7fc26ec70bd00498d70b2261c32827, type: 3}
-  - {fileID: 5469107133535966610, guid: 1ea27452e43ca944ab85f0d45691eda1, type: 3}
+  - {fileID: 4316861425840821986, guid: 9959589759727bb4b950d89f89ba1215, type: 3}
+  - {fileID: 4845884901666721083, guid: 1ea27452e43ca944ab85f0d45691eda1, type: 3}
+  - {fileID: 3175523849783534298, guid: 3bd7ab74fd6e24849bcdf30d0596c197, type: 3}
   - {fileID: 3416382909000530655, guid: e0c4466cf36f4824d87bf0810f0fd047, type: 3}
-  initialSizePerPrefab: 12
+  initialSizePerPrefab: 6
 --- !u!114 &996288948
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -3062,7 +3062,7 @@ MonoBehaviour:
   musicSource: {fileID: 1646579698}
   backgroundMusic: {fileID: 8300000, guid: 2b154d1ce9808b64782bec6aa6d900d7, type: 3}
   menuMusic: {fileID: 8300000, guid: b584a48484838ea458b7b24644432f02, type: 3}
-  musicVolume: 0.3
+  musicVolume: 0.03
   inMenu: 0
   inGame: 0
 --- !u!4 &1646579700

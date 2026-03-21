@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca4de33735b82dc4ca235315c9959c4f, type: 3}
   m_Name: Level1
   m_EditorClassIdentifier: 
-  levelName: Level 1
-  mileageGoal: 200
+  levelName: Norma
+  mileageGoal: 1000
   levelBoss: {fileID: 5287418757908217734, guid: 563cd4d044607db47b0448d9c12dfbd1, type: 3}
   bossSpawnPos: {fileID: 3174087043070343920, guid: 944aa40831ad674448b459f86a3022f5, type: 3}
   bossFinalPos: {fileID: 6934110016549617017, guid: b98d697aa81b3944d81ea8a8b5940a16, type: 3}

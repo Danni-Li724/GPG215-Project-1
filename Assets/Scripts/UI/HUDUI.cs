@@ -22,14 +22,14 @@ public class HUDUI : MonoBehaviour
 
     [SerializeField] private GameObject pausePanel;
 
-    [Header("Boss Notice (Text only)")]
+    [Header("Boss Notice")]
     [SerializeField] private TMP_Text bossNoticeText;
     [SerializeField] private RectTransform bossNoticeStart;
     [SerializeField] private RectTransform bossNoticeOnScreen;
     [SerializeField] private RectTransform bossNoticeExit;
     [SerializeField] private float bossNoticeSwipeSeconds = 0.35f;
 
-    [Header("Arrival Notice (Text only)")]
+    [Header("Arrival Notice")]
     [SerializeField] private TMP_Text arrivalNoticeText;
     [SerializeField] private RectTransform arrivalNoticeStart;
     [SerializeField] private RectTransform arrivalNoticeOnScreen;

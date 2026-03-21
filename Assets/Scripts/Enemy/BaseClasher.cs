@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class TestEnemy : MonoBehaviour, ITickable, IDamageable, IHitVFXGetter, IPoolableEnemy, IDanger
+public class BaseClasher : MonoBehaviour, ITickable, IDamageable, IHitVFXGetter, IPoolableEnemy, IDanger, IEnemyActivatable
 {
     [SerializeField] private int maxHealth = 3;
     [SerializeField] private float speed = 1.0f;
@@ -14,7 +14,7 @@ public class TestEnemy : MonoBehaviour, ITickable, IDamageable, IHitVFXGetter, I
 
     public bool IsActive => isActive;
 
-    public void Activate(Vector2 position, Transform playerTarget, EnemyPool ownerPool)
+    public virtual void Activate(Vector2 position, Transform playerTarget, EnemyPool ownerPool)
     {
         transform.position = position;
         target = playerTarget;
@@ -25,11 +25,10 @@ public class TestEnemy : MonoBehaviour, ITickable, IDamageable, IHitVFXGetter, I
         gameObject.SetActive(true);
     }
 
-    public void Tick(float dt)
+    public virtual void Tick(float dt)
     {
         if (!isActive || target == null)
             return;
-
         Vector2 pos = transform.position;
         Vector2 toPlayer = ((Vector2)target.position - pos);
 

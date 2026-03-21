@@ -5,7 +5,7 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private AudioSource musicSource;
     [SerializeField] private AudioClip backgroundMusic;
     [SerializeField] private AudioClip menuMusic;
-    [Range(0f, 1f)][SerializeField] private float musicVolume = 0.6f;
+    [Range(0f, 1f)][SerializeField] private float musicVolume;
     public static SoundManager instance;
 
     public bool inMenu;
