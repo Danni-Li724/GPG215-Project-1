@@ -17,10 +17,11 @@ public class GameOverPanelUI : MonoBehaviour
 
     public void ShowGameOver(int enemiesKilled, int traveled, int remaining, int livesLost)
     {
-        if (enemiesKilledText != null) enemiesKilledText.text = enemiesKilled.ToString();
-        if (mileageTraveledText != null) mileageTraveledText.text = traveled.ToString();
-        if (mileageRemainingText != null) mileageRemainingText.text = remaining.ToString();
-        if (livesLostText != null) livesLostText.text = livesLost.ToString();
+        if (enemiesKilledText != null) enemiesKilledText.text = "Enemies Killed: " + enemiesKilled.ToString();
+        if (mileageTraveledText != null) mileageTraveledText.text = "Mileage Traveled: " + traveled.ToString();
+        if (mileageRemainingText != null) mileageRemainingText.text = "Mileage Remaining: " + remaining.ToString();
+        if (livesLostText != null) livesLostText.text = "Lives Lost: " + livesLost.ToString();
+
 
         gameObject.SetActive(true);
     }
