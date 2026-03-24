@@ -15,6 +15,8 @@ public class EnemyManager : MonoBehaviour, ITickable
     
     private int nextSpawnIndex;
     public int EnemiesKilled { get; private set; }
+    
+    public int CurrentActiveCount => active.Count;
 
     public void Tick(float dt)
     {
