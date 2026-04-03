@@ -1493,7 +1493,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Art & Programming by Danni, Music by OREZ
+  m_text: Art & Programming by Danni, Music by Ensuke
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3060,8 +3060,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   musicSource: {fileID: 1646579698}
-  backgroundMusic: {fileID: 8300000, guid: 2b154d1ce9808b64782bec6aa6d900d7, type: 3}
-  menuMusic: {fileID: 8300000, guid: b584a48484838ea458b7b24644432f02, type: 3}
+  backgroundMusic: {fileID: 8300000, guid: 1416a829b6bbebb43bffb9aed1e036c0, type: 3}
+  menuMusic: {fileID: 8300000, guid: 1416a829b6bbebb43bffb9aed1e036c0, type: 3}
   musicVolume: 0.03
   inMenu: 0
   inGame: 0
