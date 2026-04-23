@@ -91,7 +91,7 @@
     <Compile Include="Assets\Scripts\Enemy\MoveToPointState.cs" />
     <Compile Include="Assets\Scripts\Combat\BulletManager.cs" />
     <Compile Include="Assets\Scripts\Enemy\HitVFX.cs" />
-    <Compile Include="Assets\Scripts\Enemy\EnemyBullet.cs" />
+    <Compile Include="Assets\Scripts\EnemyBullet.cs" />
     <Compile Include="Assets\Scripts\UI\MileageSystem.cs" />
     <Compile Include="Assets\Scripts\Enemy\HitVFXType.cs" />
     <Compile Include="Assets\Scripts\Enemy\LungeState.cs" />
