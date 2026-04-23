@@ -32,6 +32,21 @@ public class MileageSystem : MonoBehaviour, ITickable
         HideMilestone();
         UpdateMileageText();
     }
+    
+    public void SetStartMileage(int miles)
+    {
+        currentMiles = miles;
+        mileAccumulator = 0f;
+        // advance milestone index past already-passed milestones
+        nextMilestoneIndex = 0;
+        if (milestoneMiles != null)
+        {
+            while (nextMilestoneIndex < milestoneMiles.Count &&
+                   milestoneMiles[nextMilestoneIndex] <= currentMiles)
+                nextMilestoneIndex++;
+        }
+        UpdateMileageText();
+    }
 
     public void Tick(float dt)
     {

@@ -23,10 +23,8 @@ public class GameManager : MonoBehaviour
     private bool goalTriggered;
     private bool bossSpawned;
     private bool destinationSpawned;
-
     private LevelBoss activeBoss;
     private GameObject activeDestination;
-
     private bool isLerpingBoss;
     private bool isLerpingDestination;
 
@@ -37,7 +35,9 @@ public class GameManager : MonoBehaviour
 
     public bool isRunning;
     public bool shouldShoot;
-    
+
+    private int sessionMileageOffset = 0;
+
     public struct RunStats
     {
         public int enemiesKilled;
@@ -50,15 +50,13 @@ public class GameManager : MonoBehaviour
     {
         if (instance != null && instance != this)
         {
-            Destroy(gameObject);
-            return;
+            Destroy(instance.gameObject); 
         }
-
         instance = this;
-        DontDestroyOnLoad(gameObject);
 
         BuildTickableList();
-        isRunning = false;
+        isRunning   = false;
+        shouldShoot = false;
 
         if (levelInfoPanel != null && CurrentLevel != null)
             levelInfoPanel.Show(CurrentLevel);
@@ -69,32 +67,41 @@ public class GameManager : MonoBehaviour
     private void BuildTickableList()
     {
         tickables.Clear();
-        // if (playerShooter != null) tickables.Add(playerShooter);
-        if (bulletManager != null) tickables.Add(bulletManager);
-        if (enemyManager != null) tickables.Add(enemyManager);
-        if (enemyBulletManager != null) tickables.Add(enemyBulletManager);
-        if (mileageSystem != null) tickables.Add(mileageSystem);
+        if (bulletManager != null)        tickables.Add(bulletManager);
+        if (enemyManager != null)         tickables.Add(enemyManager);
+        if (enemyBulletManager != null)   tickables.Add(enemyBulletManager);
+        if (mileageSystem != null)        tickables.Add(mileageSystem);
         if (defaultRangerContext != null) tickables.Add(defaultRangerContext);
+        EnemySpawnSystem spawner = FindFirstObjectByType<EnemySpawnSystem>();
+        if (spawner != null) tickables.Add(spawner);
     }
 
     public void BeginRun()
     {
-        isRunning = true;
+        isRunning   = true;
         shouldShoot = true;
+        goalTriggered = false;
         SoundManager.instance.SetGameState();
+        EnemySpawnSystem spawner = FindFirstObjectByType<EnemySpawnSystem>();
+        if (spawner != null) spawner.ResetSpawner();
+        
+        ProceduralMapGenerator mapGen = FindFirstObjectByType<ProceduralMapGenerator>();
+        if (mapGen != null && CurrentLevel != null)
+            mapGen.BeginLevel(CurrentLevel.sqlLevelId > 0 ? CurrentLevel.sqlLevelId : 1);
+    }
+
+    public void ResumeRun()
+    {
+        isRunning   = true;
+        shouldShoot = true;
     }
 
     private void Update()
     {
-        if (!isRunning)
-            return;
-
+        if (!isRunning) return;
         float dt = Time.deltaTime;
-
-        for (int i = 0; i < tickables.Count; i++)
-            tickables[i].Tick(dt);
-        
-        if (isRunning && shouldShoot) playerShooter.Tick(dt);
+        for (int i = 0; i < tickables.Count; i++) tickables[i].Tick(dt);
+        if (shouldShoot) playerShooter.Tick(dt);
         CheckMileageGoalReached();
         TickBossAndDestination(dt);
     }
@@ -103,131 +110,84 @@ public class GameManager : MonoBehaviour
     {
         get
         {
-            if (levels == null || levels.Count == 0)
-                return null;
-
+            if (levels == null || levels.Count == 0) return null;
             currentLevelIndex = Mathf.Clamp(currentLevelIndex, 0, levels.Count - 1);
             return levels[currentLevelIndex];
         }
     }
+
     private RunStats BuildRunStats()
     {
-        int killed = (enemyManager != null) ? enemyManager.EnemiesKilled : 0;
-        int traveled = (mileageSystem != null) ? mileageSystem.CurrentMiles : 0;
-
+        int killed   = enemyManager != null ? enemyManager.EnemiesKilled : 0;
+        int traveled = mileageSystem != null ? mileageSystem.CurrentMiles : 0;
         LevelInfoSO level = CurrentLevel;
-        int goal = (level != null) ? level.mileageGoal : 0;
+        int goal      = level != null ? level.mileageGoal : 0;
         int remaining = Mathf.Max(0, goal - traveled);
-
-        int livesLost = (playerLife != null) ? playerLife.LivesLost : 0;
-
-        return new RunStats
-        {
-            enemiesKilled = killed,
-            mileageTraveled = traveled,
-            mileageRemaining = remaining,
-            livesLost = livesLost
-        };
+        int lost      = playerLife != null ? playerLife.LivesLost : 0;
+        return new RunStats { enemiesKilled = killed, mileageTraveled = traveled,
+                              mileageRemaining = remaining, livesLost = lost };
     }
 
     private void CheckMileageGoalReached()
     {
-        if (goalTriggered)
-            return;
-
+        if (goalTriggered) return;
         LevelInfoSO level = CurrentLevel;
-        if (level == null || mileageSystem == null)
-            return;
-
+        if (level == null || mileageSystem == null) return;
         if (mileageSystem.CurrentMiles >= level.mileageGoal)
         {
             goalTriggered = true;
-            shouldShoot = false;
-
+            shouldShoot   = false;
+            string notice = !string.IsNullOrWhiteSpace(level.bossNoticeText)
+                ? level.bossNoticeText : "Boss Incoming!";
+            float hold = level.bossNoticeDuration > 0f ? level.bossNoticeDuration : 3f;
             if (hudUI != null)
-            {
-                string notice = (!string.IsNullOrWhiteSpace(level.bossNoticeText))
-                    ? level.bossNoticeText
-                    : "Boss Incoming!";
-
-                float hold = (level.bossNoticeDuration > 0f) ? level.bossNoticeDuration : 3f;
-                hudUI.PlayBossNotice(notice, hold, () =>
-                {
-                    SpawnBossIntro();
-                    isRunning = true;
-                });
-            }
+                hudUI.PlayBossNotice(notice, hold, () => { SpawnBossIntro(); isRunning = true; });
             else
-            {
-                SpawnBossIntro();
-                isRunning = true;
-            }
+            { SpawnBossIntro(); isRunning = true; }
         }
     }
 
     private void SpawnBossIntro()
     {
         LevelInfoSO level = CurrentLevel;
-        if (level == null || level.levelBoss == null || level.bossSpawnPos == null)
-            return;
-
+        if (level == null || level.levelBoss == null || level.bossSpawnPos == null) return;
         GameObject bossObj = Instantiate(level.levelBoss);
         activeBoss = bossObj.GetComponent<LevelBoss>();
-        if (activeBoss != null)
-            activeBoss.Activate(level.bossSpawnPos.position);
-
-        bossSpawned = true;
+        if (activeBoss != null) activeBoss.Activate(level.bossSpawnPos.position);
+        bossSpawned   = true;
         isLerpingBoss = true;
-        shouldShoot = true;
+        shouldShoot   = true;
     }
 
     private void TickBossAndDestination(float dt)
     {
         LevelInfoSO level = CurrentLevel;
-        if (level == null)
-            return;
-
+        if (level == null) return;
         if (isLerpingBoss && activeBoss != null && level.bossFinalPos != null)
         {
-            Vector3 pos = activeBoss.transform.position;
-            Vector3 target = level.bossFinalPos.position;
-
-            activeBoss.transform.position = Vector3.MoveTowards(pos, target, level.bossMoveSpeed * dt);
-
-            if (Vector3.SqrMagnitude(activeBoss.transform.position - target) < 0.0001f)
+            activeBoss.transform.position = Vector3.MoveTowards(
+                activeBoss.transform.position, level.bossFinalPos.position, level.bossMoveSpeed * dt);
+            if (Vector3.SqrMagnitude(activeBoss.transform.position - level.bossFinalPos.position) < 0.0001f)
                 isLerpingBoss = false;
         }
-
         if (isLerpingDestination && activeDestination != null && level.destinationFinalPos != null)
         {
-            Vector3 pos = activeDestination.transform.position;
-            Vector3 target = level.destinationFinalPos.position;
-
-            activeDestination.transform.position = Vector3.MoveTowards(pos, target, level.destinationMoveSpeed * dt);
-
-            if (Vector3.SqrMagnitude(activeDestination.transform.position - target) < 0.0001f)
-            {
-                isLerpingDestination = false;
-                OnDestinationArrived();
-            }
+            activeDestination.transform.position = Vector3.MoveTowards(
+                activeDestination.transform.position, level.destinationFinalPos.position, level.destinationMoveSpeed * dt);
+            if (Vector3.SqrMagnitude(activeDestination.transform.position - level.destinationFinalPos.position) < 0.0001f)
+            { isLerpingDestination = false; OnDestinationArrived(); }
         }
     }
 
-    public void OnBossKilled()
-    {
-        SpawnDestinationIntro();
-    }
+    public void OnBossKilled() { SpawnDestinationIntro(); }
 
     private void SpawnDestinationIntro()
     {
         LevelInfoSO level = CurrentLevel;
-        if (level == null || level.levelDestination == null || level.destinationSpawnPos == null)
-            return;
-
+        if (level == null || level.levelDestination == null || level.destinationSpawnPos == null) return;
         activeDestination = Instantiate(level.levelDestination);
         activeDestination.transform.position = level.destinationSpawnPos.position;
-
-        destinationSpawned = true;
+        destinationSpawned   = true;
         isLerpingDestination = true;
     }
 
@@ -235,94 +195,68 @@ public class GameManager : MonoBehaviour
     {
         shouldShoot = false;
         LevelInfoSO level = CurrentLevel;
-        
-        string msg;
-        if (level != null && !string.IsNullOrWhiteSpace(level.arrivalNoticeText))
-            msg = level.arrivalNoticeText;
-        else if (level != null)
-            msg = "You have now arrived at " + level.levelName;
-        else
-            msg = "You have arrived!";
-
-        float hold = (level != null && level.arrivalNoticeDuration > 0f) ? level.arrivalNoticeDuration : 2f;
-
+        string msg = level != null && !string.IsNullOrWhiteSpace(level.arrivalNoticeText)
+            ? level.arrivalNoticeText
+            : (level != null ? "You have arrived at " + level.levelName : "You arrived!");
+        float hold = level != null && level.arrivalNoticeDuration > 0f ? level.arrivalNoticeDuration : 2f;
         if (hudUI != null)
-        {
-            hudUI.PlayArrivalNotice(msg, hold, () =>
-            {
-                RunStats s = BuildRunStats();
-                hudUI.ShowProceedToNextLevelPanel(s);
-            });
-        }
-        else
-        {
-        
-            RunStats s = BuildRunStats();
-            if (hudUI != null)
-                hudUI.ShowProceedToNextLevelPanel(s);
-        }
+            hudUI.PlayArrivalNotice(msg, hold, () => hudUI.ShowProceedToNextLevelPanel(BuildRunStats()));
     }
-    
+
     public void GameOver(int livesLost)
     {
-        isRunning = false;
+        isRunning   = false;
+        shouldShoot = false;
+        RunStats s  = BuildRunStats();
+        s.livesLost = livesLost;
 
-        RunStats s = BuildRunStats();
-        s.livesLost = livesLost; 
+        if (MirageSaveSystem.Instance != null)
+        {
+            RunResultData result = new RunResultData
+            {
+                totalMileage  = s.mileageTraveled,
+                enemiesKilled = s.enemiesKilled,
+                livesLost     = s.livesLost
+            };
+            bool isNewBest = MirageSaveSystem.Instance.TrySaveIfBest(result);
+            if (isNewBest && hudUI != null) hudUI.ShowHighScoreNotice(s.mileageTraveled);
+        }
 
-        if (hudUI != null)
-            hudUI.ShowGameOverPanel(s);
+        if (hudUI != null) hudUI.ShowGameOverPanel(s);
     }
+
     public void StartNextLevel()
     {
+        sessionMileageOffset = mileageSystem != null ? mileageSystem.CurrentMiles : 0;
         GoToNextLevel();
-
         ResetLevel();
-
-        isRunning = false;
-
-        if (levelInfoPanel != null && CurrentLevel != null)
-            levelInfoPanel.Show(CurrentLevel);
+        if (mileageSystem != null) mileageSystem.SetStartMileage(sessionMileageOffset);
+        if (levelInfoPanel != null && CurrentLevel != null) levelInfoPanel.Show(CurrentLevel);
     }
+
     public void RestartCurrentLevel()
     {
+        sessionMileageOffset = 0;
         ResetLevel();
-
-        isRunning = false;
-
-        if (levelInfoPanel != null && CurrentLevel != null)
-            levelInfoPanel.Show(CurrentLevel);
+        if (levelInfoPanel != null && CurrentLevel != null) levelInfoPanel.Show(CurrentLevel);
     }
 
     private void GoToNextLevel()
     {
-        if (levels == null || levels.Count == 0)
-            return;
-
-        currentLevelIndex += 1;
-
-        if (currentLevelIndex >= levels.Count)
-            currentLevelIndex = levels.Count - 1;
+        if (levels == null || levels.Count == 0) return;
+        currentLevelIndex = Mathf.Min(currentLevelIndex + 1, levels.Count - 1);
     }
 
     private void ResetLevel()
     {
-        goalTriggered = false;
-        bossSpawned = false;
-        destinationSpawned = false;
-        isLerpingBoss = false;
+        goalTriggered        = false;
+        bossSpawned          = false;
+        destinationSpawned   = false;
+        isLerpingBoss        = false;
         isLerpingDestination = false;
-
-        if (activeDestination != null)
-        {
-            Destroy(activeDestination);
-            activeDestination = null;
-        }
-
-        if (activeBoss != null)
-        {
-            Destroy(activeBoss.gameObject);
-            activeBoss = null;
-        }
+        isRunning            = false;
+        shouldShoot          = false;
+        if (activeDestination != null) { Destroy(activeDestination); activeDestination = null; }
+        if (activeBoss != null)        { Destroy(activeBoss.gameObject); activeBoss = null; }
     }
 }

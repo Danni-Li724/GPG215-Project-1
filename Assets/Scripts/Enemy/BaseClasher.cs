@@ -19,6 +19,17 @@ public class BaseClasher : MonoBehaviour, ITickable, IDamageable, IHitVFXGetter,
         transform.position = position;
         target = playerTarget;
         pool = ownerPool;
+        
+        if (GameDatabase.Instance != null)
+        {
+            EnemyStatsRow row = GameDatabase.Instance.GetEnemy(GetType().Name);
+            if (row != null)
+            {
+                maxHealth = row.max_health;
+                speed = row.speed;
+                hitVFXType = (HitVFXType)row.hit_vfx_type;
+            }
+        }
 
         health = maxHealth;
         isActive = true;

@@ -7,6 +7,8 @@ public class PlayerCollectionSystem : MonoBehaviour
 
     [Header("UI")]
     [SerializeField] private LifeUIAnimation lifeUI;
+    
+    [SerializeField] private PlayerPowerUpSystem powerUpSystem;
 
     private int currentLives;
 
@@ -15,16 +17,18 @@ public class PlayerCollectionSystem : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         IPickUp pickUp = other.GetComponentInParent<IPickUp>();
-        if (pickUp == null)
-            return;
+        if (pickUp == null) return;
 
         if (pickUp.Type == PickupType.Life)
-        {
             TryCollectLife(pickUp);
-        }
-        else
+        else if (pickUp.Type == PickupType.PowerUp)
         {
-            // powerups to implement later
+            PowerUpPickupItem powerUp = other.GetComponentInParent<PowerUpPickupItem>();
+            if (powerUp != null && powerUpSystem != null)
+            {
+                powerUpSystem.Activate(powerUp.PowerUpType);
+                pickUp.Consume();
+            }
         }
     }
 

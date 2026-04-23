@@ -1,4 +1,3 @@
-// GameOverPanelUI.cs
 using TMPro;
 using UnityEngine;
 

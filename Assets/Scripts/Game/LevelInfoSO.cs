@@ -5,6 +5,8 @@ public class LevelInfoSO : ScriptableObject
 {
     public string levelName = "";
     public int mileageGoal = 100;
+    
+    public int sqlLevelId = 0;
 
     [Header("Boss")]
     public GameObject levelBoss;

@@ -1,5 +1,3 @@
-// HUDUI.cs
-
 using System;
 using System.Collections;
 using UnityEngine;
@@ -40,11 +38,17 @@ public class HUDUI : MonoBehaviour
     [Header("End Panels")]
     [SerializeField] private GameOverPanelUI gameOverPanel;
     [SerializeField] private ProceedToNextLevelPanelUI proceedToNextLevelPanel;
+    
+    [Header("High Score")]
+    [SerializeField] private TMP_Text highScoreNoticeText;
+    [SerializeField] private float highScoreNoticeSeconds = 2.5f;
+    private Coroutine highScoreRoutine;
 
     private void Start()
     {
         if (pausePanel != null) pausePanel.SetActive(false);
         if (optionsPanelGraphic != null) optionsPanelStartPos = optionsPanelGraphic.anchoredPosition;
+        if (highScoreNoticeText != null) highScoreNoticeText.gameObject.SetActive(false);
     }
 
     // allow GameManager to bind panels 
@@ -205,6 +209,30 @@ public class HUDUI : MonoBehaviour
         if (proceedToNextLevelPanel != null)
             proceedToNextLevelPanel.Show(state.enemiesKilled, state.mileageTraveled, state.mileageRemaining, state.livesLost);
     }
+    
+    // public void ShowHighScoreNotice()
+    // {
+    //     if (highScoreNoticeText == null) return;
+    //     if (highScoreRoutine != null) StopCoroutine(highScoreRoutine);
+    //     highScoreRoutine = StartCoroutine(HighScoreNoticeRoutine());
+    // }
+    //
+    // private IEnumerator HighScoreNoticeRoutine()
+    // {
+    //     highScoreNoticeText.gameObject.SetActive(true);
+    //     yield return new WaitForSeconds(highScoreNoticeSeconds);
+    //     highScoreNoticeText.gameObject.SetActive(false);
+    //     highScoreRoutine = null;
+    // }
+    
+  // now passes actual score to notifier
+    public void ShowHighScoreNotice(int mileage)
+    {
+        if (highScoreNoticeText == null) return;
+        HighScoreNotifier notifier = highScoreNoticeText.GetComponent<HighScoreNotifier>();
+        if (notifier != null) notifier.Show(mileage);
+    }
+
 
     public void OnTryAgainPressed()
     {

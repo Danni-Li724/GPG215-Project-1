@@ -11,6 +11,8 @@ public class SoundManager : MonoBehaviour
     public bool inMenu;
     public bool inGame;
     
+    public float SfxVolume { get; private set; } = 1f;
+    
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -23,6 +25,22 @@ public class SoundManager : MonoBehaviour
         
         if (musicSource == null)
             musicSource = gameObject.AddComponent<AudioSource>();
+        
+        ApplySettings(MirageSaveSystem.Instance.LoadSettingsOrDefault());
+    }
+    
+    public void ApplySettings(SettingsData data)
+    {
+        musicVolume = data.musicVolume;
+        SfxVolume = data.sfxVolume;
+        if (musicSource != null)
+            musicSource.volume = musicVolume;
+    }
+    
+    public void SetGameStateWithClip(AudioClip clip)
+    {
+        inMenu = false; inGame = true;
+        PlayMusic(clip);
     }
 
     private void PlaySequence()
