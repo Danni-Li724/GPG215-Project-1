@@ -81,7 +81,7 @@ public class GameDatabase : MonoBehaviour
         else
         {
             IsReady = true;
-            Debug.Log($"database ready — enemies:{enemyCache.Count} levels:{levelCache.Count} items:{itemCache.Count}");
+            Debug.Log($"database ready: enemies:{enemyCache.Count} levels:{levelCache.Count} items:{itemCache.Count}");
         }
     }
 
@@ -153,6 +153,33 @@ public class GameDatabase : MonoBehaviour
         return db.Table<PlayerBestRow>()
                  .OrderByDescending(r => r.total_mileage)
                  .FirstOrDefault();
+    }
+    
+
+    // called by dlcLoader to apply a patch.sql from dlc pack
+    public bool ExecutePatch(string sql)
+    {
+        if (db == null || string.IsNullOrWhiteSpace(sql)) return false;
+
+        try
+        {
+            string[] statements = sql.Split(';');
+            foreach (string raw in statements)
+            {
+                string stmt = raw.Trim();
+                if (string.IsNullOrWhiteSpace(stmt)) continue;
+                db.Execute(stmt);
+            }
+
+            // refresh caches so new rows are immediately available
+            CacheAllTables();
+            return true;
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogWarning($"GameDatabase.ExecutePatch failed: {e.Message}");
+            return false;
+        }
     }
 
 

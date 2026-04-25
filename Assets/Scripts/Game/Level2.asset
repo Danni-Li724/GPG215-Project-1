@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca4de33735b82dc4ca235315c9959c4f, type: 3}
+  m_Name: Level2
+  m_EditorClassIdentifier: 
+  levelName: Theo
+  mileageGoal: 500
+  sqlLevelId: 2
+  levelBoss: {fileID: 5287418757908217734, guid: 563cd4d044607db47b0448d9c12dfbd1, type: 3}
+  bossSpawnPos: {fileID: 3174087043070343920, guid: 944aa40831ad674448b459f86a3022f5, type: 3}
+  bossFinalPos: {fileID: 6934110016549617017, guid: b98d697aa81b3944d81ea8a8b5940a16, type: 3}
+  bossMoveSpeed: 4
+  levelDestination: {fileID: 1047688927382070954, guid: b65a5af526829d24ba17b2d9b2317dd1, type: 3}
+  destinationSpawnPos: {fileID: 8477379245655648313, guid: aa28a21bd9de3b546a32a6b05894b994, type: 3}
+  destinationFinalPos: {fileID: 4333707937954831769, guid: 14152e4033b8335439e4e8061a195656, type: 3}
+  destinationMoveSpeed: 4
+  bossNoticeText: You have roused her up...
+  bossNoticeDuration: 3
+  arrivalNoticeText: 'You have arrived at: Theo'
+  arrivalNoticeDuration: 3
+  dlcPackId: Level 2

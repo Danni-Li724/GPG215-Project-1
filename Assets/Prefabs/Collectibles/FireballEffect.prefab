@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 246854561087131601}
   - component: {fileID: 6102192299722793986}
   - component: {fileID: 3717938900135735838}
+  - component: {fileID: 311907180989648801}
   m_Layer: 0
   m_Name: FireballEffect
   m_TagString: Untagged
@@ -4798,9 +4799,9 @@ ParticleSystemRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: 702368555
+  m_SortingLayer: 3
+  m_SortingOrder: 1
   m_RenderMode: 0
   m_MeshDistribution: 0
   m_SortMode: 0
@@ -4833,3 +4834,17 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &311907180989648801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5559755725378597652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5ca77f43b94a6545ae6142c7ce0cf99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  duration: 5
+  dps: 1

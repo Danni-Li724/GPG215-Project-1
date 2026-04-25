@@ -75,8 +75,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 702368555
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 8633881525917383573, guid: 3a60a5bc681a3204c9d286b185d534a3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -102,7 +102,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  bulletManager: {fileID: 0}
+  enemyBulletManager: {fileID: 0}
   enemyBulletType: {fileID: 11400000, guid: 849a7063bfdfa3547ba2dd2e01f736a2, type: 2}
   firePoint: {fileID: 8011140504797629720}
   moveArea: {fileID: 0}

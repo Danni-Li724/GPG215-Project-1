@@ -16,7 +16,7 @@ using UnityEngine.Networking;
 
                 if (req.result != UnityWebRequest.Result.Success)
                 {
-                    Debug.LogWarning($"StreamingAssets LoadBytes failed: {relativePath} | {req.error}");
+                    Debug.LogWarning($"StreamingAssets loadBytes failed: {relativePath} | {req.error}");
                     onDone?.Invoke(null);
                     yield break;
                 }

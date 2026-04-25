@@ -5,26 +5,29 @@ public sealed class BulletManager : MonoBehaviour, ITickable
 {
     [SerializeField] private BulletPool pool;
     [SerializeField] private PlayerPowerUpSystem powerUpSystem;
+
+    // ── ADDED: assign your FireEffect prefab here in inspector ────────────
+    [SerializeField] private GameObject fireEffectPrefab;
+    // ─────────────────────────────────────────────────────────────────────
+
     public static BulletManager Instance { get; private set; }
     public bool UseFireballMode { get; set; }
 
     private readonly List<Bullet> active = new List<Bullet>(256);
 
-    private void Awake()
-    {
-        Instance = this;
-    }
+    private void Awake() { Instance = this; }
 
     public void SpawnBullet(BulletTypeSO type, Vector2 position, Vector2 direction)
     {
         if (pool == null || type == null) return;
         Bullet bullet = pool.Get();
         bullet.Activate(type, position, direction);
-        if (UseFireballMode)
+        if (UseFireballMode && fireEffectPrefab != null)
         {
-            bullet.IsFireball    = true;
-            bullet.PowerUpSystem = powerUpSystem;
+            bullet.IsFireball      = true;
+            bullet.FireEffectPrefab = fireEffectPrefab;
         }
+
         active.Add(bullet);
     }
 

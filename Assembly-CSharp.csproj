@@ -50,6 +50,7 @@
     <Compile Include="Assets\Scripts\Input\JoystickInput.cs" />
     <Compile Include="Assets\Scripts\Behaviour\SwayRotate.cs" />
     <Compile Include="Assets\Scripts\Game\Save &amp; Database\MirageDataClasses.cs" />
+    <Compile Include="Assets\Scripts\DLC\DLCLoader.cs" />
     <Compile Include="Assets\Scripts\UI\SettingsPanelUI.cs" />
     <Compile Include="Assets\Scripts\UI\LevelInfoPanel.cs" />
     <Compile Include="Assets\Scripts\Behaviour\Rotate.cs" />
@@ -82,7 +83,7 @@
     <Compile Include="Assets\Scripts\Combat\Bullet.cs" />
     <Compile Include="Assets\Scripts\Enemy\EnemyPool.cs" />
     <Compile Include="Assets\Scripts\PickUps\PowerUps\TriShotEffect.cs" />
-    <Compile Include="Assets\Scripts\PickUps\PowerUps\FireballStatusEffectSettings.cs" />
+    <Compile Include="Assets\Scripts\Game\Save &amp; Database\BuildAssetBundles.cs" />
     <Compile Include="Assets\Scripts\Enemy\DefaultRangerContext.cs" />
     <Compile Include="Assets\Scripts\PickUps\PowerUps\FireballEffect.cs" />
     <Compile Include="Assets\Scripts\Enemy\EnemyBulletManager.cs" />
@@ -99,7 +100,9 @@
     <Compile Include="Assets\Scripts\Behaviour\Orbit.cs" />
     <Compile Include="Assets\Scripts\PickUps\PowerUps\ShieldEffect.cs" />
     <Compile Include="Assets\Scripts\UI\LifeUIAnimation.cs" />
+    <Compile Include="Assets\Scripts\DLC\DLCPack.cs" />
     <Compile Include="Assets\Scripts\UI\AdPromptPanelUI.cs" />
+    <Compile Include="Assets\Scripts\DLC\LevelSkinApplier.cs" />
     <Compile Include="Assets\Scripts\PickUps\PowerUps\PowerUpEffect.cs" />
     <Compile Include="Assets\Scripts\Enemy\RangerPointFinder.cs" />
     <Compile Include="Assets\Scripts\Enemy\MoveToPointState.cs" />
@@ -111,13 +114,13 @@
     <Compile Include="Assets\Scripts\Game\PerformanceTracker.cs" />
     <Compile Include="Assets\Scripts\Enemy\HitVFXType.cs" />
     <Compile Include="Assets\Scripts\Enemy\LungeState.cs" />
+    <Compile Include="Assets\Scripts\Combat\FireEffect.cs" />
     <Compile Include="Assets\Scripts\Game\ProceduralMapGenerator.cs" />
     <Compile Include="Assets\Scripts\Game\SoundManager.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerCollectionSystem.cs" />
     <Compile Include="Assets\Scripts\PickUps\PowerUps\RapidFireEffect.cs" />
     <Compile Include="Assets\Scripts\UI\ProceedToNextLevelPanel.cs" />
     <Compile Include="Assets\Scripts\Enemy\EnemySpawnSystem.cs" />
-    <Compile Include="Assets\Scripts\PickUps\PowerUps\FireStatusEffect.cs" />
     <Compile Include="Assets\Scripts\Enemy\IPoolableEnemy.cs" />
     <Compile Include="Assets\Scripts\UI\HUDUI.cs" />
     <Compile Include="Assets\Scripts\Enemy\ShootState.cs" />
@@ -132,6 +135,7 @@
     <Compile Include="Assets\Scripts\Enemy\LevelBoss.cs" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
     <None Include="Library\PackageCache\com.unity.burst@1df634d836b8\package.json" />
+    <None Include="Assets\2D Space Kit\Backgrounds\Background Tip.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
     <None Include="Library\PackageCache\com.unity.test-framework.performance@0840f58e4562\package.json" />
     <None Include="Library\PackageCache\com.unity.inputsystem@be6c4fd0abf5\package.json" />
@@ -142,12 +146,14 @@
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
     <None Include="Library\PackageCache\com.unity.test-framework.performance@0840f58e4562\ValidationExceptions.json" />
     <None Include="Library\PackageCache\com.unity.timeline@6b9e48457ddb\package.json" />
+    <None Include="Assets\2D Space Kit\Readme.txt" />
     <None Include="Library\PackageCache\com.unity.ide.visualstudio@74aa435fc4bb\ValidationConfig.json" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
     <None Include="Library\PackageCache\com.unity.mathematics@8017b507cc74\package.json" />
     <None Include="Library\PackageCache\com.unity.burst@1df634d836b8\ValidationExceptions.json" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
     <None Include="Library\PackageCache\com.unity.visualscripting@6279e2b7c485\package.json" />
+    <None Include="Assets\StreamingAssets\DLC\Level 2\skins.json" />
     <None Include="Library\PackageCache\com.unity.collab-proxy@1e5e48aff19d\package.json" />
     <None Include="Assets\Sound\explosionsoundslite\readme.txt" />
     <None Include="Assets\StreamingAssets\Maps\level_map_1.json" />
@@ -158,10 +164,12 @@
     <None Include="Assets\TextMesh Pro\Shaders\SDFFunctions.hlsl" />
     <None Include="Library\PackageCache\com.unity.ide.rider@1f60b3138684\ValidationExceptions.json" />
     <None Include="Library\PackageCache\com.unity.nuget.mono-cecil@d78732e851eb\package.json" />
+    <None Include="Assets\2D Space Kit\Background Elements\Planets\Planet Masks\Note.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface.shader" />
     <None Include="Library\PackageCache\com.unity.visualscripting@6279e2b7c485\ValidationExceptions.json" />
     <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
+    <None Include="Assets\2D Space Kit\Background Elements\Stars\Recolor Us!.txt" />
     <None Include="Library\PackageCache\com.unity.2d.common@bc041c6e0d0d\package.json" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF.shader" />
     <None Include="Library\PackageCache\com.unity.ide.visualstudio@74aa435fc4bb\ValidationExceptions.json" />
@@ -171,7 +179,11 @@
     <None Include="Library\PackageCache\com.unity.2d.tilemap.extras@13634da7dbe0\package.json" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
     <None Include="Library\PackageCache\com.unity.inputsystem@be6c4fd0abf5\ValidationExceptions.json" />
+    <None Include="Assets\2D Space Kit\Particles (Sprites)\Note on Flares.txt" />
+    <None Include="Assets\2D Space Kit\Backgrounds\Fantasy Purple 2048\Note.txt" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
+    <None Include="Assets\StreamingAssets\Maps\level_map_2.json" />
+    <None Include="Assets\2D Space Kit\Ships and Stations\Rendering Tip.txt" />
     <None Include="Library\PackageCache\com.unity.collab-proxy@1e5e48aff19d\ValidationConfig.json" />
     <None Include="Library\PackageCache\com.unity.2d.aseprite@dba7c65ef731\ValidationExceptions.json" />
     <None Include="Library\PackageCache\com.unity.timeline@6b9e48457ddb\ValidationExceptions.json" />
@@ -566,6 +578,12 @@
     </Reference>
     <Reference Include="System.Runtime.CompilerServices.Unsafe">
       <HintPath>D:\Desktop\GPG215 Project 1\Library\PackageCache\com.unity.collections@aea9d3bd5e19\Unity.Collections.Tests\System.Runtime.CompilerServices.Unsafe\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Android.Types">
+      <HintPath>D:\UnityEditor\6000.0.62f1\Editor\Data\PlaybackEngines\AndroidPlayer\Unity.Android.Types.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Android.Gradle">
+      <HintPath>D:\UnityEditor\6000.0.62f1\Editor\Data\PlaybackEngines\AndroidPlayer\Unity.Android.Gradle.dll</HintPath>
     </Reference>
     <Reference Include="netstandard">
       <HintPath>D:\UnityEditor\6000.0.62f1\Editor\Data\NetStandard\ref\2.1.0\netstandard.dll</HintPath>

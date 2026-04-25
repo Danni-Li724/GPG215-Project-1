@@ -8,32 +8,27 @@ public class PlayerPowerUpSystem : MonoBehaviour
     [SerializeField] private PlayerShooter shooter;
     [SerializeField] private ShieldHealth  shield;
     [SerializeField] private BulletTypeSO  fireballBulletType;
-
-    [SerializeField] private float triShotSpread      = 40f;
+    [SerializeField] private float triShotSpread       = 40f;
     [SerializeField] private float rapidFireMultiplier = 2.5f;
+    [Header("Fallback Durations (used if DB unavailable)")]
+    [SerializeField] private float triShotDuration    = 8f;
+    [SerializeField] private float rapidFireDuration  = 6f;
+    [SerializeField] private float shieldDuration     = 12f;
+    [SerializeField] private float fireballDuration   = 10f;
+
     private readonly List<PowerUpEffect> activeEffects = new List<PowerUpEffect>();
+
     public void Activate(PowerUpType type)
     {
-        float duration  = GetDurationFromDB(type);
+        float duration   = GetDurationFromDB(type);
         PowerUpEffect effect = BuildEffect(type);
         if (effect == null) return;
 
         effect.Init(shooter, duration);
         effect.Apply();
+
         activeEffects.Add(effect);
         StartCoroutine(ExpireAfter(effect, duration));
-    }
-    public void ApplyFireStatusToEnemy(GameObject enemyGO)
-    {
-        ItemRow row = GameDatabase.Instance?.GetItem("fireball");
-        
-        Debug.Log($"ApplyFire called on {enemyGO.name}, row null: {row == null}, prefab null: {FireStatusEffect.FireParticlePrefab == null}");
-    
-        if (row == null) return;
-        FireStatusEffect existing = enemyGO.GetComponent<FireStatusEffect>();
-        if (existing != null) { existing.AddStack(); return; }
-        FireStatusEffect effect = enemyGO.AddComponent<FireStatusEffect>();
-        effect.Init(row.fire_dps, row.fire_spread_radius, row.fire_stack_multiplier);
     }
 
     private IEnumerator ExpireAfter(PowerUpEffect effect, float seconds)
@@ -42,7 +37,6 @@ public class PlayerPowerUpSystem : MonoBehaviour
         effect.Remove();
         activeEffects.Remove(effect);
 
-        // only clear shooter overrides when NO shooter effects remain
         bool anyShooterEffect = activeEffects.Exists(e =>
             e is TriShotEffect || e is RapidFireEffect || e is FireballEffect);
         if (!anyShooterEffect)
@@ -60,11 +54,21 @@ public class PlayerPowerUpSystem : MonoBehaviour
             _                     => null
         };
     }
-
+    
     private float GetDurationFromDB(PowerUpType type)
     {
-        if (GameDatabase.Instance == null || !GameDatabase.Instance.IsReady) return 5f;
-        ItemRow row = GameDatabase.Instance.GetItem(type.ToString().ToLower());
-        return row != null ? row.duration : 5f;
+        if (GameDatabase.Instance != null && GameDatabase.Instance.IsReady)
+        {
+            ItemRow row = GameDatabase.Instance.GetItem(type.ToString().ToLower());
+            if (row != null) return row.duration;
+        }
+        return type switch
+        {
+            PowerUpType.TriShot   => triShotDuration,
+            PowerUpType.RapidFire => rapidFireDuration,
+            PowerUpType.Shield    => shieldDuration,
+            PowerUpType.Fireball  => fireballDuration,
+            _                     => 5f
+        };
     }
 }

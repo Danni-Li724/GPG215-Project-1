@@ -1,0 +1,35 @@
+ManifestFileVersion: 0
+UnityVersion: 6000.0.62f1
+CRC: 1995630730
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 89d2e2493cff04bc26e0482f76853538
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 25271fcbee4710b38d6013adb897ee8d
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: 30509f8bcc1c411fabe2b8d65ee209a7
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 198
+  Script: {instanceID: 0}
+- Class: 199
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/Prefabs/Level1/MapObj/NebulaBlueRing.prefab
+- Assets/Prefabs/Level1/MapObj/NebulaPurpleRing.prefab
+- Assets/Prefabs/Level1/MapObj/RockyRing.prefab
+- Assets/Prefabs/Level1/MapObj/GasRing.prefab
+- Assets/Prefabs/Level1/MapObj/AsteroidTrail.prefab
+Dependencies: []

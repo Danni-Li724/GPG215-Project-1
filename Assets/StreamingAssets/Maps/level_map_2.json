@@ -1,0 +1,10 @@
+{
+    "levelId": 2,
+    "nodes": [
+        { "nodeType": "nebula_purple", "spawnDistance": 0, "spriteKey": "dlc_nebula_dark",   "variationCount": 1, "scaleMin": 2.0, "scaleMax": 3.5, "layer": -4 },
+        { "nodeType": "planet_rocky",  "spawnDistance": 0, "spriteKey": "dlc_planet_void",   "variationCount": 2, "scaleMin": 0.5, "scaleMax": 0.5, "layer": -2 },
+        { "nodeType": "asteroid",      "spawnDistance": 0, "spriteKey": "dlc_asteroid_dark", "variationCount": 2, "scaleMin": 0.3, "scaleMax": 0.7, "layer": -1 },
+        { "nodeType": "planet_gas",    "spawnDistance": 0, "spriteKey": "dlc_planet_ember",  "variationCount": 1, "scaleMin": 0.5, "scaleMax": 0.5, "layer": -3 },
+        { "nodeType": "nebula_blue",   "spawnDistance": 0, "spriteKey": "dlc_nebula_red",    "variationCount": 1, "scaleMin": 1.5, "scaleMax": 3.0, "layer": -4 }
+    ]
+}

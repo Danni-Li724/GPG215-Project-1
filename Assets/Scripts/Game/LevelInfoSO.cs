@@ -25,4 +25,7 @@ public class LevelInfoSO : ScriptableObject
     public float bossNoticeDuration = 3f;
     public string arrivalNoticeText;
     public float arrivalNoticeDuration = 3f;
+    
+    [Header("DLC")]
+    public string dlcPackId;
 }

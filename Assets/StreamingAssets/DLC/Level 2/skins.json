@@ -1,0 +1,10 @@
+{
+    "skins": [
+        { "typeKey": "BaseClasher",         "assetName": "enemy_void_base"      },
+        { "typeKey": "BobClasher",          "assetName": "enemy_void_bob"       },
+        { "typeKey": "BoomerangClasher",    "assetName": "enemy_void_boomerang" },
+        { "typeKey": "ZigZagClasher",       "assetName": "enemy_void_zigzag"    },
+        { "typeKey": "DefaultRangerContext","assetName": "enemy_void_ranger"    },
+        { "typeKey": "LevelBoss",           "assetName": "boss_void"            }
+    ]
+}

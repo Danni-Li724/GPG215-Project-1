@@ -51,6 +51,11 @@ public class EnemyManager : MonoBehaviour, ITickable
         }
 
         activatable.Activate(pos, player, pool);
+        
+        // apply dlc skin via type names
+        if (LevelSkinApplier.Instance != null)
+            LevelSkinApplier.Instance.ApplySkinToEnemy(mb.gameObject);
+        
         active.Add(tickable);
     }
 

@@ -88,6 +88,11 @@ public class GameManager : MonoBehaviour
         ProceduralMapGenerator mapGen = FindFirstObjectByType<ProceduralMapGenerator>();
         if (mapGen != null && CurrentLevel != null)
             mapGen.BeginLevel(CurrentLevel.sqlLevelId > 0 ? CurrentLevel.sqlLevelId : 1);
+        
+        // load dlc pack
+        LevelSkinApplier skinApplier = FindFirstObjectByType<LevelSkinApplier>();
+        if (skinApplier != null && CurrentLevel != null)
+            skinApplier.BeginLevel(CurrentLevel.dlcPackId);
     }
 
     public void ResumeRun()
@@ -154,6 +159,10 @@ public class GameManager : MonoBehaviour
         GameObject bossObj = Instantiate(level.levelBoss);
         activeBoss = bossObj.GetComponent<LevelBoss>();
         if (activeBoss != null) activeBoss.Activate(level.bossSpawnPos.position);
+        
+        if (LevelSkinApplier.Instance != null)
+            LevelSkinApplier.Instance.ApplySkinToBoss(bossObj);
+        
         bossSpawned   = true;
         isLerpingBoss = true;
         shouldShoot   = true;

@@ -15,9 +15,9 @@ MonoBehaviour:
   speed: 12
   lifetime: 2
   damage: 1
-  sprite: {fileID: -1114543765518530488, guid: cbcf55c22ff1536438a2318f47a0c9bb, type: 3}
-  visualScale: 0.1
-  hitRadius: 0.2
+  sprite: {fileID: -707553046184314303, guid: 18f08431480394b40bcac51b8cf64015, type: 3}
+  visualScale: 1
+  hitRadius: 1
   hitMask:
     serializedVersion: 2
     m_Bits: 64
