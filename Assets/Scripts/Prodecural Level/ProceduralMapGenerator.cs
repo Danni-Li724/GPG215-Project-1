@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
-public class ProceduralMapGenerator : MonoBehaviour
+public class ProceduralMapGenerator : MonoBehaviour, ITickable
 {
     [System.Serializable]
     public class NodeTypeConfig
@@ -17,11 +17,11 @@ public class ProceduralMapGenerator : MonoBehaviour
     [SerializeField] private Transform     nodeParent;
 
     [Header("Spawn Settings")]
-    [SerializeField] private float   pixelsPerUnit   = 100f;
-    [SerializeField] private Vector2 spawnXRange     = new Vector2(-2.5f, 2.5f);
-    [SerializeField] private float   spawnY          = 8f;
-    [SerializeField] private float   nodeScrollSpeed = 1.5f;
-    [SerializeField] private string  spritesFolder   = "Maps/Sprites";
+    [SerializeField] private float pixelsPerUnit = 100f;
+    [SerializeField] private Vector2 spawnXRange = new Vector2(-2.5f, 2.5f);
+    [SerializeField] private float spawnY = 8f;
+    [SerializeField] private float nodeScrollSpeed = 1.5f;
+    private string spritesFolder = "Maps/Sprites";
 
     [Header("Node Type Configs")]
     [SerializeField] private List<NodeTypeConfig> nodeConfigs = new List<NodeTypeConfig>
@@ -45,9 +45,9 @@ public class ProceduralMapGenerator : MonoBehaviour
     [SerializeField] private string bundleName       = "nodeparticles";
     
     private MapLayoutData layout;
-    private int           nextNodeIndex;
-    private bool          enabled_ = true;
-    private bool          isReady  = false;
+    private int nextNodeIndex;
+    private bool enabled_ = true;
+    private bool isReady  = false;
 
     private AssetBundle particleBundle;
     private readonly Dictionary<string, Queue<NodeInstance>> pools = new Dictionary<string, Queue<NodeInstance>>();
@@ -61,14 +61,30 @@ public class ProceduralMapGenerator : MonoBehaviour
     
     private class NodeInstance
     {
-        public GameObject   root;
+        public GameObject root;
         public SpriteRenderer sr;
         public ParticleSystem particles;
-        public string         nodeType;
-        public bool           isAsteroid;
-        public Vector2        asteroidVelocity;
+        public string nodeType;
+        public bool isAsteroid;
+        public Vector2 asteroidVelocity;
     }
     
+    private void Start()
+    {
+        // if (GameManager.instance != null)
+        //     GameManager.instance.RegisterTickable(this);
+    }
+
+    private void OnDestroy()
+    {
+        if (particleBundle != null)
+        {
+            particleBundle.Unload(false);
+            particleBundle = null;
+        }
+        // if (GameManager.instance != null)
+        //     GameManager.instance.UnregisterTickable(this);
+    }
 
     public void SetEnabled(bool value)
     {
@@ -77,8 +93,9 @@ public class ProceduralMapGenerator : MonoBehaviour
             if (n.root != null) n.root.SetActive(value);
     }
 
-    public void BeginLevel(int levelId)
+    public void BeginLevel(int levelId, string spritesSubfolder = "Level1")
     {
+        spritesFolder = $"Maps/Sprites/{spritesSubfolder}"; // better folder structure
         nextNodeIndex = 0;
         spawnCooldown = 0f;
         isReady       = false;
@@ -236,20 +253,18 @@ public class ProceduralMapGenerator : MonoBehaviour
         activeNodes.Clear();
     }
 
-    private void Update()
+    public void Update()
     {
         if (!enabled_ || !isReady || mileageSystem == null) return;
-        CheckAndSpawnNodes();
-        ScrollAndCullNodes();
+        CheckAndSpawnNodes(Time.deltaTime);
+        ScrollAndCullNodes(Time.deltaTime);
     }
 
-    private void CheckAndSpawnNodes()
+    private void CheckAndSpawnNodes(float dt)
     {
         if (layout == null || nextNodeIndex >= layout.nodes.Count) return;
-
-        spawnCooldown -= Time.deltaTime;
+        spawnCooldown -= dt;
         if (spawnCooldown > 0f) return;
-
         if (mileageSystem.CurrentMiles >= layout.nodes[nextNodeIndex].spawnDistance)
         {
             SpawnNode(layout.nodes[nextNodeIndex]);
@@ -258,6 +273,28 @@ public class ProceduralMapGenerator : MonoBehaviour
         }
     }
 
+    private void ScrollAndCullNodes(float dt)
+    {
+        for (int i = activeNodes.Count - 1; i >= 0; i--)
+        {
+            NodeInstance n = activeNodes[i];
+            if (n.root == null) { activeNodes.RemoveAt(i); continue; }
+
+            if (n.isAsteroid)
+                n.root.transform.position += (Vector3)(n.asteroidVelocity * dt);
+            else
+                n.root.transform.position += Vector3.down * nodeScrollSpeed * dt;
+
+            float posY = n.root.transform.position.y;
+            float posX = n.root.transform.position.x;
+            if (posY < DespawnY || Mathf.Abs(posX) > 10f)
+            {
+                ReturnToPool(n);
+                activeNodes.RemoveAt(i);
+            }
+        }
+    }
+    
     private void SpawnNode(MapNodeDefinition def)
     {
         NodeInstance node = GetFromPool(def.nodeType);
@@ -349,13 +386,5 @@ public class ProceduralMapGenerator : MonoBehaviour
             }
         }
     }
-
-    private void OnDestroy()
-    {
-        if (particleBundle != null)
-        {
-            particleBundle.Unload(false);
-            particleBundle = null;
-        }
-    }
+    
 }

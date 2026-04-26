@@ -9,6 +9,7 @@ public class DLCLoader : MonoBehaviour
     public static DLCLoader Instance { get; private set; }
 
     private const string DLCFolder = "DLC";
+    // [SerializeField] private string bundleFileName = "level2";
     private readonly Dictionary<string, AssetBundle>  bundles   = new Dictionary<string, AssetBundle>(); // loaded bundles by packId
     private readonly Dictionary<string, Object>       assetCache = new Dictionary<string, Object>();
     private readonly Dictionary<string, Skins> skins  = new Dictionary<string, Skins>(); // skinsby packId
@@ -108,16 +109,26 @@ public class DLCLoader : MonoBehaviour
 
     private IEnumerator LoadBundleRoutine(string packId, string baseDir)
     {
-        string path = Path.Combine(baseDir, packId);
-        using UnityWebRequest req = UnityWebRequestAssetBundle.GetAssetBundle(path);
-        yield return req.SendWebRequest();
+        string bundleName = packId.ToLower().Replace(" ", "");
+        string path = Path.Combine(baseDir, bundleName); // * for scalability sake, look for file thats not 'patch.sql' or 'skins.json' rather than hardcoding bundle name
+        
+        Debug.Log($"DLCLoader: attempting bundle at path: {path}");
+        Debug.Log($"DLCLoader: streamingAssetsPath = {Application.streamingAssetsPath}");
+        // using UnityWebRequest req = UnityWebRequestAssetBundle.GetAssetBundle(path);
+        // yield return req.SendWebRequest();
+        
+        string uri = new System.Uri(path).AbsoluteUri;
 
+        Debug.Log($"DLCLoader: attempting bundle at path: {uri}");
+    
+        using UnityWebRequest req = UnityWebRequestAssetBundle.GetAssetBundle(uri);
+        yield return req.SendWebRequest();
         if (req.result != UnityWebRequest.Result.Success)
         {
             Debug.LogWarning($"bundle '{packId}' not found or failed: {req.error}");
             yield break;
         }
-
+    
         AssetBundle bundle = DownloadHandlerAssetBundle.GetContent(req);
         if (bundle != null)
         {
@@ -131,13 +142,13 @@ public class DLCLoader : MonoBehaviour
         string path = Path.Combine(baseDir, "skins.json");
         using UnityWebRequest req = UnityWebRequest.Get(path);
         yield return req.SendWebRequest();
-
+    
         if (req.result != UnityWebRequest.Result.Success)
         {
             Debug.Log($"no skin.json for '{packId}' — no reskins applied");
             yield break;
         }
-
+    
         string json = req.downloadHandler.text;
         try
         {
@@ -153,39 +164,40 @@ public class DLCLoader : MonoBehaviour
             Debug.LogWarning($"skin parse failed for '{packId}': {e.Message}");
         }
     }
-
+    
+    
     private IEnumerator ApplyPatchRoutine(string packId, string baseDir)
     {
         string path = Path.Combine(baseDir, "patch.sql");
         using UnityWebRequest req = UnityWebRequest.Get(path);
         yield return req.SendWebRequest();
-
+    
         if (req.result != UnityWebRequest.Result.Success)
         {
             Debug.Log($"no patch.sql for '{packId}' — skipping DB patch");
             yield break;
         }
-
+    
         string sql = req.downloadHandler.text;
         if (string.IsNullOrWhiteSpace(sql)) yield break;
-
+    
         if (GameDatabase.Instance == null)
         {
             Debug.LogWarning("sql GameDatabase not ready — cannot apply patch");
             yield break;
         }
-
+    
         bool done = false;
         bool success = false;
-
+    
         System.Threading.Tasks.Task.Run(() =>
         {
             success = GameDatabase.Instance.ExecutePatch(sql);
             done = true;
         });
-
+    
         yield return new WaitUntil(() => done);
-
+    
         if (success)
             Debug.Log($"sql patch applied for '{packId}'");
         else

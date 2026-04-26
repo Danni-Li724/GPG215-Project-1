@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private List<LevelInfoSO> levels = new List<LevelInfoSO>();
     [SerializeField] private int currentLevelIndex = 0;
+    private int absoluteMileageGoal = 0;
 
     private bool goalTriggered;
     private bool bossSpawned;
@@ -63,11 +64,22 @@ public class GameManager : MonoBehaviour
         if (hudUI != null)
             hudUI.BindPanels(gameOverPanel);
     }
+    
+    public void RegisterTickable(ITickable t)
+    {
+        if (t != null && !tickables.Contains(t))
+            tickables.Add(t);
+    }
+
+    public void UnregisterTickable(ITickable t)
+    {
+        tickables.Remove(t);
+    }
 
     private void BuildTickableList()
     {
         tickables.Clear();
-        if (bulletManager != null)        tickables.Add(bulletManager);
+        // if (bulletManager != null)        tickables.Add(bulletManager);
         if (enemyManager != null)         tickables.Add(enemyManager);
         if (enemyBulletManager != null)   tickables.Add(enemyBulletManager);
         if (mileageSystem != null)        tickables.Add(mileageSystem);
@@ -76,20 +88,29 @@ public class GameManager : MonoBehaviour
         if (spawner != null) tickables.Add(spawner);
     }
 
+    // MODIFIED: BeginRun() — set absolute goal for level 1 too
     public void BeginRun()
     {
-        isRunning   = true;
-        shouldShoot = true;
+        isRunning     = true;
+        shouldShoot   = true;
         goalTriggered = false;
-        SoundManager.instance.SetGameState();
+        absoluteMileageGoal = sessionMileageOffset +
+                              (CurrentLevel != null ? CurrentLevel.mileageGoal : 0);
+
+        if (SoundManager.instance != null) SoundManager.instance.SetGameState();
+
         EnemySpawnSystem spawner = FindFirstObjectByType<EnemySpawnSystem>();
         if (spawner != null) spawner.ResetSpawner();
-        
+
         ProceduralMapGenerator mapGen = FindFirstObjectByType<ProceduralMapGenerator>();
         if (mapGen != null && CurrentLevel != null)
-            mapGen.BeginLevel(CurrentLevel.sqlLevelId > 0 ? CurrentLevel.sqlLevelId : 1);
-        
-        // load dlc pack
+        {
+            string subfolder = !string.IsNullOrEmpty(CurrentLevel.mapSpritesSubfolder)
+                ? CurrentLevel.mapSpritesSubfolder : "Level1";
+            mapGen.BeginLevel(CurrentLevel.sqlLevelId > 0 ? CurrentLevel.sqlLevelId : 1, subfolder);
+        }
+
+        // load dlc skin
         LevelSkinApplier skinApplier = FindFirstObjectByType<LevelSkinApplier>();
         if (skinApplier != null && CurrentLevel != null)
             skinApplier.BeginLevel(CurrentLevel.dlcPackId);
@@ -105,8 +126,16 @@ public class GameManager : MonoBehaviour
     {
         if (!isRunning) return;
         float dt = Time.deltaTime;
-        for (int i = 0; i < tickables.Count; i++) tickables[i].Tick(dt);
-        if (shouldShoot) playerShooter.Tick(dt);
+        if (shouldShoot)
+        {
+            for (int i = tickables.Count - 1; i >= 0; i--)
+            {
+                if (i >= tickables.Count) continue;
+                tickables[i]?.Tick(dt);
+            }
+            playerShooter.Tick(dt);
+        }
+        bulletManager.Tick(dt);
         CheckMileageGoalReached();
         TickBossAndDestination(dt);
     }
@@ -120,25 +149,27 @@ public class GameManager : MonoBehaviour
             return levels[currentLevelIndex];
         }
     }
-
+    
     private RunStats BuildRunStats()
     {
-        int killed   = enemyManager != null ? enemyManager.EnemiesKilled : 0;
+        int killed = enemyManager != null ? enemyManager.EnemiesKilled : 0;
         int traveled = mileageSystem != null ? mileageSystem.CurrentMiles : 0;
         LevelInfoSO level = CurrentLevel;
-        int goal      = level != null ? level.mileageGoal : 0;
-        int remaining = Mathf.Max(0, goal - traveled);
-        int lost      = playerLife != null ? playerLife.LivesLost : 0;
+        int relativeProgress = traveled - sessionMileageOffset; // remaining is relative to current level only
+        int levelGoal = level != null ? level.mileageGoal : 0; 
+        int remaining = Mathf.Max(0, levelGoal - relativeProgress);
+        int lost = playerLife != null ? playerLife.LivesLost : 0;
         return new RunStats { enemiesKilled = killed, mileageTraveled = traveled,
-                              mileageRemaining = remaining, livesLost = lost };
+            mileageRemaining = remaining, livesLost = lost };
     }
-
+    // MODIFIED: CheckMileageGoalReached() — use absoluteMileageGoal not levelGoal
     private void CheckMileageGoalReached()
     {
         if (goalTriggered) return;
         LevelInfoSO level = CurrentLevel;
         if (level == null || mileageSystem == null) return;
-        if (mileageSystem.CurrentMiles >= level.mileageGoal)
+        // checking against absolute goals
+        if (mileageSystem.CurrentMiles >= absoluteMileageGoal)
         {
             goalTriggered = true;
             shouldShoot   = false;
@@ -150,6 +181,12 @@ public class GameManager : MonoBehaviour
             else
             { SpawnBossIntro(); isRunning = true; }
         }
+    }
+    
+    private void ClearAllEnemies()
+    {
+        if (enemyManager != null) enemyManager.ClearAll();
+        if (enemyBulletManager != null) enemyBulletManager.ClearAll();
     }
 
     private void SpawnBossIntro()
@@ -203,6 +240,7 @@ public class GameManager : MonoBehaviour
     private void OnDestinationArrived()
     {
         shouldShoot = false;
+        ClearAllEnemies();
         LevelInfoSO level = CurrentLevel;
         string msg = level != null && !string.IsNullOrWhiteSpace(level.arrivalNoticeText)
             ? level.arrivalNoticeText
@@ -240,6 +278,10 @@ public class GameManager : MonoBehaviour
         GoToNextLevel();
         ResetLevel();
         if (mileageSystem != null) mileageSystem.SetStartMileage(sessionMileageOffset);
+
+        // absolute goal is where the player is currently (milleage wise) + this (new) level's goal
+        absoluteMileageGoal = sessionMileageOffset +
+                              (CurrentLevel != null ? CurrentLevel.mileageGoal : 0);
         if (levelInfoPanel != null && CurrentLevel != null) levelInfoPanel.Show(CurrentLevel);
     }
 

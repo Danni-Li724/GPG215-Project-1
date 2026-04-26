@@ -1,19 +1,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// Tracks hits received in a 30-second rolling window and produces a
-// PerformanceScore (0=struggling, 1=doing great) that feeds StarfieldController.
-// PlayerLifeSystem calls NotifyHit() via its OnHitReceived Action.
-public class PerformanceTracker : MonoBehaviour
+// tracks hits received in the last 30 seconds
+// performanceScore: 0=struggling, 1=doing great which is fed into StarfieldController
+public class PerformanceTracker : MonoBehaviour, ITickable
 {
     [SerializeField] private PlayerLifeSystem  lifeSystem;
     [SerializeField] private StarfieldController starfield;
 
     [SerializeField] private float windowSeconds   = 30f;
-    [SerializeField] private int   hitsForWorstScore = 6; // 6+ hits in window = score 0
+    [SerializeField] private int   hitsForWorstScore = 6; 
 
-    // timestamps of recent hits — entries older than windowSeconds are pruned
+    // timestamps of recent hits 
     private readonly Queue<float> hitTimestamps = new Queue<float>();
+    // accumulated time for rolling window, uses dt
+    private float elapsed;
+
 
     public float PerformanceScore { get; private set; } = 1f;
 
@@ -28,20 +30,25 @@ public class PerformanceTracker : MonoBehaviour
         if (lifeSystem != null)
             lifeSystem.OnHitReceived -= OnHit;
     }
+    
+    private void Start()
+    {
+        if (GameManager.instance != null)
+            GameManager.instance.RegisterTickable(this);
+    }
+
 
     private void OnHit()
     {
         hitTimestamps.Enqueue(Time.time);
     }
 
-    private void Update()
+    public void Tick(float dt)
     {
+        elapsed += dt;
         PruneOldHits();
-        float score = CalculateScore();
-        PerformanceScore = score;
-
-        if (starfield != null)
-            starfield.SetPerformanceScore(score);
+        PerformanceScore = CalculateScore();
+        if (starfield != null) starfield.SetPerformanceScore(PerformanceScore);
     }
 
     private void PruneOldHits()
@@ -53,7 +60,6 @@ public class PerformanceTracker : MonoBehaviour
 
     private float CalculateScore()
     {
-        // fewer hits = higher score; clamped 0..1
         float ratio = (float)hitTimestamps.Count / hitsForWorstScore;
         return Mathf.Clamp01(1f - ratio);
     }

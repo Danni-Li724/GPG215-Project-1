@@ -4,17 +4,19 @@ public class Bob : MonoBehaviour
 {
     [SerializeField] private float amplitude = 0.25f;
     [SerializeField] private float frequency = 2f;
+    private float bobTimer;
 
-    private Vector3 startPos;
-
-    private void Awake()
+    public void ResetBob()
     {
-        startPos = transform.position;
+        bobTimer = Random.Range(0f, Mathf.PI * 2f); 
     }
 
-    public void DoBob()
+    public void DoBob(float dt)
     {
-        float y = Mathf.Sin(Time.time * frequency) * amplitude;
-        transform.position = startPos + new Vector3(0f, y, 0f);
+        bobTimer += dt * frequency;
+        float yOffset = Mathf.Sin(bobTimer) * amplitude;
+        Vector3 pos = transform.position;
+        pos.y += yOffset * dt; 
+        transform.position = pos;
     }
 }

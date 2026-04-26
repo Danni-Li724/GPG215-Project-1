@@ -1,6 +1,8 @@
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class BoomerangClasher : BaseClasher, IEnemyActivatable
+public class BoomerangClasher : BaseClasher, IPoolableEnemy
 {
     private Rotate rotate; 
     

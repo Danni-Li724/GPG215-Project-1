@@ -16,7 +16,9 @@ public static class BuildAssetBundles
         BuildPipeline.BuildAssetBundles(
             outputPath,
             BuildAssetBundleOptions.None,
-            BuildTarget.Android
+            // BuildTarget.Android
+            // BuildTarget.StandaloneWindows64
+            EditorUserBuildSettings.activeBuildTarget
         );
 
         AssetDatabase.Refresh();

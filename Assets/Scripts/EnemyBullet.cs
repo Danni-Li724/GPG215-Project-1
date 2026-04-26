@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EnemyBullet : MonoBehaviour, IDanger
+public class EnemyBullet : MonoBehaviour, IDanger, ITickable
 {
     private float lifeRemaining;
     private Vector2 velocity;
@@ -21,6 +21,8 @@ public class EnemyBullet : MonoBehaviour, IDanger
 
         isActive = true;
         gameObject.SetActive(true);
+        if (GameManager.instance != null)
+            GameManager.instance.RegisterTickable(this);
     }
 
     public void Tick(float dt)

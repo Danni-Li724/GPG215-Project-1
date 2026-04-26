@@ -3,8 +3,8 @@ using System.Collections.Generic;
 [System.Serializable]
 public class Skins
 {
-    // key = C# class name e.g. "BaseClasher", "LevelBoss"
-    // value = asset name inside the bundle e.g. "enemy_void_clasher"
+    // key = C# class name ;ike "BaseClasher", "LevelBoss"
+    // value = asset name inside the bundle 
     public List<SkinEntry> skins = new List<SkinEntry>();
 
     [System.Serializable]

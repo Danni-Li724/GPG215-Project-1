@@ -39,7 +39,7 @@ public class GameDatabase : MonoBehaviour
 
             if (req.result != UnityWebRequest.Result.Success)
             {
-                Debug.LogWarning($"could not read {DbName} from StreamingAssets: {req.error}. Starting with empty DB.");
+                Debug.LogWarning($"could not read {DbName} from StreamingAssets: {req.error}.");
             }
             else
             {
@@ -81,7 +81,7 @@ public class GameDatabase : MonoBehaviour
         else
         {
             IsReady = true;
-            Debug.Log($"database ready: enemies:{enemyCache.Count} levels:{levelCache.Count} items:{itemCache.Count}");
+            Debug.Log($"db ready: enemies:{enemyCache.Count} levels:{levelCache.Count} items:{itemCache.Count}");
         }
     }
 
@@ -180,21 +180,5 @@ public class GameDatabase : MonoBehaviour
             Debug.LogWarning($"GameDatabase.ExecutePatch failed: {e.Message}");
             return false;
         }
-    }
-
-
-#if UNITY_EDITOR
-    [ContextMenu("Reload Database Cache")]
-    public void ReloadCache()
-    {
-        if (db == null) { Debug.LogWarning("DB not open"); return; }
-        CacheAllTables();
-        Debug.Log("cache reloaded");
-    }
-#endif
-
-    private void OnDestroy()
-    {
-        db?.Close();
     }
 }

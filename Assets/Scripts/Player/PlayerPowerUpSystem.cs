@@ -10,7 +10,7 @@ public class PlayerPowerUpSystem : MonoBehaviour
     [SerializeField] private BulletTypeSO  fireballBulletType;
     [SerializeField] private float triShotSpread       = 40f;
     [SerializeField] private float rapidFireMultiplier = 2.5f;
-    [Header("Fallback Durations (used if DB unavailable)")]
+    [Header("Fallback Durations")]
     [SerializeField] private float triShotDuration    = 8f;
     [SerializeField] private float rapidFireDuration  = 6f;
     [SerializeField] private float shieldDuration     = 12f;

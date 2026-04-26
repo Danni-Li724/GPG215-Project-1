@@ -60,8 +60,9 @@ using UnityEngine;
                             GameObject enemyGO = hit.GetComponentInParent<MonoBehaviour>()?.gameObject;
                             if (enemyGO != null && enemyGO.GetComponentInChildren<FireEffect>() == null)
                             {
-                                GameObject fx = Instantiate(FireEffectPrefab, enemyGO.transform);
-                                fx.transform.localPosition = Vector3.zero;
+                                FireEffect fx = Instantiate(FireEffectPrefab)
+                                    .GetComponent<FireEffect>();
+                                if (fx != null) fx.Activate(enemyGO.transform);
                             }
                         }
 

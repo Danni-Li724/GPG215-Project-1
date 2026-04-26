@@ -19,7 +19,6 @@ public class ProceedToNextLevelPanelUI : MonoBehaviour
         if (mileageTraveledText != null) mileageTraveledText.text = "Mileage Traveled: " + traveled.ToString();
         if (mileageRemainingText != null) mileageRemainingText.text = "Mileage Remaining: " + remaining.ToString();
         if (livesLostText != null) livesLostText.text = "Lives Lost: " + livesLost.ToString();
-
         gameObject.SetActive(true);
     }
 

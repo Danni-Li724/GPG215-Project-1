@@ -1,9 +1,12 @@
 ManifestFileVersion: 0
 UnityVersion: 6000.0.62f1
-CRC: 2847052268
+CRC: 2475119080
 HashAppended: 0
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
       Name: nodeparticles
+      Dependencies: {}
+    Info_1:
+      Name: level2
       Dependencies: {}

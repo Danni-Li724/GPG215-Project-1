@@ -1,8 +1,5 @@
 using UnityEngine;
 
-// Switches PlayerShooter to slow single shots using the fireball BulletTypeSO.
-// Sets BulletManager.UseFireballMode so spawned bullets get tagged for
-// FireStatusEffect on hit.
 public class FireballEffect : PowerUpEffect
 {
     private readonly BulletTypeSO fireballType;

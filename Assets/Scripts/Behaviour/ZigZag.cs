@@ -2,28 +2,31 @@ using UnityEngine;
 
 public class ZigZag : MonoBehaviour
 {
-    [SerializeField] private Vector2 forward = Vector2.right;
-    [SerializeField] private float forwardSpeed = 2f;
-    [SerializeField] private float zigAmplitude = 0.5f;
-    [SerializeField] private float zigFrequency = 3f;
+    [SerializeField] private float zigAmplitude   = 1.5f;
+    [SerializeField] private float zigFrequency   = 2f;
+    [SerializeField] private float boundaryX      = 2.5f;
+    private float zigTimer;
+    private float horizontalDirection = 1f;
 
-    private Vector3 startPos;
-
-    private void Awake()
+    public void ResetZigZag()
     {
-        startPos = transform.position;
-        forward = forward.sqrMagnitude < 0.001f ? Vector2.right : forward.normalized;
+        zigTimer           = Random.Range(0f, Mathf.PI * 2f);
+        horizontalDirection = Random.value > 0.5f ? 1f : -1f;
     }
 
-    public void DoZigZag()
+    public void DoZigZag(float dt)
     {
-        float t = Time.time;
-        Vector2 perp = new Vector2(-forward.y, forward.x);
+        zigTimer += dt * zigFrequency;
+        float xOffset = Mathf.Sin(zigTimer) * zigAmplitude * horizontalDirection * dt;
 
-        Vector2 move = forward * forwardSpeed * Time.deltaTime;
-        Vector2 offset = perp * (Mathf.Sin(t * zigFrequency) * zigAmplitude);
+        Vector3 pos = transform.position;
+        pos.x += xOffset;
+        if (pos.x > boundaryX || pos.x < -boundaryX)
+        {
+            horizontalDirection *= -1f;
+            pos.x = Mathf.Clamp(pos.x, -boundaryX, boundaryX);
+        }
 
-        startPos += (Vector3)move;
-        transform.position = startPos + (Vector3)offset;
+        transform.position = pos;
     }
 }

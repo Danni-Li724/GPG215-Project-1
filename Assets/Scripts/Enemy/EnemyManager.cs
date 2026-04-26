@@ -70,4 +70,19 @@ public class EnemyManager : MonoBehaviour, ITickable
         SpawnAtPosition(nextSpawnIndex % count, pos);
         nextSpawnIndex = (nextSpawnIndex + 1) % count;
     }
+    
+    public void ClearAll()
+    {
+        // return every active enemy to pool
+        for (int i = active.Count - 1; i >= 0; i--)
+        {
+            ITickable t = active[i];
+            if (t == null) continue;
+            IPoolableEnemy poolable = t as IPoolableEnemy;
+            MonoBehaviour mb = t as MonoBehaviour;
+            if (mb != null) mb.gameObject.SetActive(false);
+            if (poolable != null) pool.Return(poolable);
+        }
+        active.Clear();
+    }
 }

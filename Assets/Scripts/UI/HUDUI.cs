@@ -236,23 +236,15 @@ public class HUDUI : MonoBehaviour
 
     public void OnTryAgainPressed()
     {
-        // eload scene
+        // reload scene
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         // GameManager.instance.RestartCurrentLevel();
-    }
-
-    public void OnProceedToNextLevelPressed()
-    {
-        GameManager.instance.StartNextLevel();
     }
 
     public void OnNextLevelPressed()
     {
         GameManager.instance.StartNextLevel();
+        proceedToNextLevelPanel?.Hide();
     }
-
-    public void OnReturnToMenuPressed()
-    {
-        SceneManager.LoadScene("Menu");
-    }
+    
 }

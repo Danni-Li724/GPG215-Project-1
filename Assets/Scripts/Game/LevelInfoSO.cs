@@ -27,5 +27,6 @@ public class LevelInfoSO : ScriptableObject
     public float arrivalNoticeDuration = 3f;
     
     [Header("DLC")]
+    public string mapSpritesSubfolder = "Level1"; 
     public string dlcPackId;
 }

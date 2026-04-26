@@ -1,17 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// Applies DLC skin overrides to enemies and boss when they spawn.
-// Fully generic — works for any enemy type via GetType().Name lookup
-// against the skin manifest. No hardcoded type names anywhere.
 public class LevelSkinApplier : MonoBehaviour
 {
     public static LevelSkinApplier Instance { get; private set; }
 
     private string       activePack;
     private bool         skinReady;
-
-    // built from manifest for O(1) lookups
     private Dictionary<string, string> skinLookup = new Dictionary<string, string>();
 
     private void Awake()
@@ -19,9 +14,7 @@ public class LevelSkinApplier : MonoBehaviour
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
         Instance = this;
     }
-
-    // Called by GameManager.BeginRun() with the current level's dlcPackId.
-    // Empty packId = base game level, nothing loads.
+    
     public void BeginLevel(string packId)
     {
         skinLookup.Clear();
@@ -32,7 +25,7 @@ public class LevelSkinApplier : MonoBehaviour
 
         if (DLCLoader.Instance == null)
         {
-            Debug.LogWarning("LevelSkinApplier: DLCLoader not in scene");
+            Debug.LogWarning("levelSkinApplier: DLCLoader not in scene");
             skinReady = true;
             return;
         }
@@ -46,18 +39,15 @@ public class LevelSkinApplier : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning($"LevelSkinApplier: pack '{packId}' failed to load");
-                skinReady = true; // still mark ready so game doesn't hang
+                Debug.LogWarning($"levelSkinApplier: pack '{packId}' failed to load");
+                skinReady = true; 
             }
         });
     }
-
-    // Called by EnemyManager after Activate() — works for ANY enemy type
+    
     public void ApplySkinToEnemy(GameObject enemyGO)
     {
         if (!skinReady || string.IsNullOrEmpty(activePack)) return;
-
-        // walk up component list to find the most derived type name
         MonoBehaviour[] components = enemyGO.GetComponents<MonoBehaviour>();
         foreach (var c in components)
         {
@@ -69,13 +59,10 @@ public class LevelSkinApplier : MonoBehaviour
             }
         }
     }
-
-    // Called by GameManager when boss spawns
+    
     public void ApplySkinToBoss(GameObject bossGO)
     {
         if (!skinReady || string.IsNullOrEmpty(activePack)) return;
-
-        // boss type key is "LevelBoss"
         if (skinLookup.TryGetValue("LevelBoss", out string assetName))
             ApplySprite(bossGO, assetName);
     }
@@ -84,7 +71,11 @@ public class LevelSkinApplier : MonoBehaviour
     {
         Sprite sprite = DLCLoader.Instance?.GetSprite(activePack, assetName);
         if (sprite == null) return;
-
+        if (sprite == null)
+        {
+            Debug.LogWarning($"LevelSkinApplier: sprite '{assetName}' not found in bundle '{activePack}' — check asset name matches bundle exactly");
+            return;
+        }
         SpriteRenderer sr = go.GetComponentInChildren<SpriteRenderer>();
         if (sr != null) sr.sprite = sprite;
     }

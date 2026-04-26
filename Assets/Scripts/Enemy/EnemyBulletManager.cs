@@ -39,4 +39,14 @@ public class EnemyBulletManager : MonoBehaviour, ITickable
             }
         }
     }
+    public void ClearAll()
+    {
+        for (int i = active.Count - 1; i >= 0; i--)
+        {
+            EnemyBullet bullet = active[i];
+            if (bullet != null) bullet.Deactivate();
+            pool.Return(bullet);
+        }
+        active.Clear();
+    }
 }
