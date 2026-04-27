@@ -5754,8 +5754,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 11, y: 1}
+  m_SizeDelta: {x: -132.3129, y: -177.299}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &647914454
 MonoBehaviour:
@@ -6437,7 +6437,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.61693585, g: 0.8962264, b: 0.37624598, a: 1}
+  m_Color: {r: 0.627451, g: 0.78431374, b: 0.39215687, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -6594,7 +6594,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Art & Programming by Danni, Music by Ensuke
+  m_text: 'Art & Programming by Danni, Music by Jarrad
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0df744e0ecccd4e4589b469525fe0c6e, type: 2}
   m_sharedMaterial: {fileID: 1254730141170556839, guid: 0df744e0ecccd4e4589b469525fe0c6e, type: 2}
@@ -7375,7 +7377,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.78431374, g: 0.44502875, b: 0.39215687, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -8299,9 +8301,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   musicSource: {fileID: 1646579698}
-  backgroundMusic: {fileID: 8300000, guid: b584a48484838ea458b7b24644432f02, type: 3}
-  menuMusic: {fileID: 8300000, guid: 58ec4778445909f43b6754cd6416befb, type: 3}
-  musicVolume: 0.015
+  backgroundMusic: {fileID: 8300000, guid: dd11140e92dcd3448bc99bc0cebc0f41, type: 3}
+  menuMusic: {fileID: 8300000, guid: dd11140e92dcd3448bc99bc0cebc0f41, type: 3}
+  musicVolume: 0.2
   inMenu: 0
   inGame: 0
 --- !u!4 &1646579700
@@ -8525,8 +8527,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 1, y: 4}
+  m_SizeDelta: {x: -256.5642, y: -180.604}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1692467938
 MonoBehaviour:

@@ -101,7 +101,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf764cb22bacac84aa46237d7bdcbc81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  degreesPerSecond: 45
+  degreesPerSecond: 20
 --- !u!114 &7801788404415930776
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -114,4 +114,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9094f00f51de5f94fb70cd390f321e69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotate: {fileID: 0}
+  rotate: {fileID: 8183289290614818955}

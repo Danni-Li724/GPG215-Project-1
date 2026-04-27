@@ -1,0 +1,28 @@
+ManifestFileVersion: 0
+UnityVersion: 6000.0.62f1
+CRC: 1781249872
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: fc06168c0f9a4d592cc7bc48cc9b54d3
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 9f349c36d7a6532f767333f9299b3e74
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: 248f48ab5b2f321f2902b30d806cf4d7
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/Art/DLC/enemy_level2_zigzag.png
+- Assets/Art/DLC/enemy_level2_boomerang.png
+- Assets/Art/DLC/enemy_level2_bob.png
+- Assets/Art/DLC/enemy_level2_ranger.png
+- Assets/Art/DLC/boss_level2.png
+- Assets/Art/DLC/enemy_level2_base.png
+Dependencies: []

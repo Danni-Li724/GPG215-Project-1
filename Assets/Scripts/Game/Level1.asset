@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Level1
   m_EditorClassIdentifier: 
   levelName: Norma
-  mileageGoal: 100
+  mileageGoal: 250
   sqlLevelId: 0
   levelBoss: {fileID: 5287418757908217734, guid: 563cd4d044607db47b0448d9c12dfbd1, type: 3}
   bossSpawnPos: {fileID: 3174087043070343920, guid: 944aa40831ad674448b459f86a3022f5, type: 3}

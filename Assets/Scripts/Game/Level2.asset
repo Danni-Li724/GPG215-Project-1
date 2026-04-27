@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Level2
   m_EditorClassIdentifier: 
   levelName: Theo
-  mileageGoal: 250
+  mileageGoal: 300
   sqlLevelId: 2
   levelBoss: {fileID: 5287418757908217734, guid: 563cd4d044607db47b0448d9c12dfbd1, type: 3}
   bossSpawnPos: {fileID: 3174087043070343920, guid: 944aa40831ad674448b459f86a3022f5, type: 3}
@@ -23,7 +23,7 @@ MonoBehaviour:
   destinationSpawnPos: {fileID: 8477379245655648313, guid: aa28a21bd9de3b546a32a6b05894b994, type: 3}
   destinationFinalPos: {fileID: 4333707937954831769, guid: 14152e4033b8335439e4e8061a195656, type: 3}
   destinationMoveSpeed: 4
-  bossNoticeText: You have roused her up...
+  bossNoticeText: You have been granted audience...
   bossNoticeDuration: 3
   arrivalNoticeText: 'You have arrived at: Theo'
   arrivalNoticeDuration: 3

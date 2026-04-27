@@ -3,16 +3,16 @@
     "nodes": [
         {
             "nodeType": "nebula_purple",
-            "spawnDistance": 0,
+            "spawnDistance": 20,
             "spriteKey": "nebula_purple",
             "variationCount": 1,
             "scaleMin": 0.3,
-            "scaleMax": 0.5,
+            "scaleMax": 0.35,
             "layer": -4
         },
         {
             "nodeType": "planet_rocky",
-            "spawnDistance": 0,
+            "spawnDistance": 15,
             "spriteKey": "planet_rocky",
             "variationCount": 3,
             "scaleMin": 0.5,
@@ -24,8 +24,8 @@
             "spawnDistance": 50,
             "spriteKey": "asteroid",
             "variationCount": 2,
-            "scaleMin": 0.3,
-            "scaleMax": 0.7,
+            "scaleMin": 0.25,
+            "scaleMax": 0.35,
             "layer": -1
         },
         {
@@ -33,26 +33,26 @@
             "spawnDistance": 150,
             "spriteKey": "planet_gas",
             "variationCount": 2,
-            "scaleMin": 0.3,
+            "scaleMin": 0.4,
             "scaleMax": 0.5,
             "layer": -3
         },
         {
             "nodeType": "nebula_blue",
-            "spawnDistance": 300,
+            "spawnDistance": 40,
             "spriteKey": "nebula_blue",
             "variationCount": 1,
-            "scaleMin": 0.2,
-            "scaleMax": 0.5,
+            "scaleMin": 0.3,
+            "scaleMax": 0.4,
             "layer": -4
         },
         {
             "nodeType": "planet_rocky",
-            "spawnDistance": 0,
+            "spawnDistance": 40,
             "spriteKey": "planet_rocky",
             "variationCount": 3,
-            "scaleMin": 0.5,
-            "scaleMax": 0.8,
+            "scaleMin": 0.4,
+            "scaleMax": 0.55,
             "layer": -2
         },
         {
@@ -61,16 +61,16 @@
             "spriteKey": "asteroid",
             "variationCount": 2,
             "scaleMin": 0.2,
-            "scaleMax": 0.5,
+            "scaleMax": 0.25,
             "layer": -1
         },
         {
             "nodeType": "debris",
-            "spawnDistance": 200,
+            "spawnDistance": 120,
             "spriteKey": "debris",
             "variationCount": 2,
-            "scaleMin": 0.2,
-            "scaleMax": 0.4,
+            "scaleMin": 0.4,
+            "scaleMax": 0.5,
             "layer": -1
         }
     ]

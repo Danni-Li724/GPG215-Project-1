@@ -77,15 +77,21 @@ public class HUDUI : MonoBehaviour
 
     public void OnOptionsPressed()
     {
-        if (pausePanel) pausePanel.SetActive(false);
-        GameManager.instance.isRunning = false;
-        if (optionsPanel != null) optionsPanel.SetActive(true);
-
         optionsOpen = !optionsOpen;
-        optionsPanelGraphic.DOKill();
+        if (optionsOpen)
+        {
+            optionsPanel.SetActive(true);
+            optionsPanelGraphic.anchoredPosition = optionsPanelStartPos;
+        }
 
+        optionsPanelGraphic.DOKill();
         Vector2 target = optionsOpen ? optionsPanelEnd.anchoredPosition : optionsPanelStartPos;
-        optionsPanelGraphic.DOAnchorPos(target, optionsPanelMoveDuration).SetEase(optionsPanelEase);
+        optionsPanelGraphic.DOAnchorPos(target, optionsPanelMoveDuration)
+            .SetEase(optionsPanelEase)
+            .OnComplete(() =>
+            {
+                if (!optionsOpen) optionsPanel.SetActive(false);
+            });
     }
 
     public void HideOptionsPanel()
@@ -126,6 +132,7 @@ public class HUDUI : MonoBehaviour
         optionsPanel.SetActive(false);
         optionsPanelGraphic.anchoredPosition = optionsPanelStartPos;
         optionsOpen = false;
+        // if (GameManager.instance != null) GameManager.instance.isRunning = true;
     }
 
     public void PlayBossNotice(string message, float holdSeconds, System.Action onComplete)

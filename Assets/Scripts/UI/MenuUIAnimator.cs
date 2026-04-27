@@ -142,13 +142,21 @@ public class MenuUIAnimator : MonoBehaviour
 
     public void OnOptionsPressed()
     {
-        optionsPanel.SetActive(true);
-        // pull-down panel graphic
         optionsOpen = !optionsOpen;
-        optionsPanelGraphic.DOKill();
+        if (optionsOpen)
+        {
+            optionsPanel.SetActive(true);
+            optionsPanelGraphic.anchoredPosition = optionsPanelStartPos;
+        }
 
+        optionsPanelGraphic.DOKill();
         Vector2 target = optionsOpen ? optionsPanelEnd.anchoredPosition : optionsPanelStartPos;
-        optionsPanelGraphic.DOAnchorPos(target, optionsPanelMoveDuration).SetEase(optionsPanelEase);
+        optionsPanelGraphic.DOAnchorPos(target, optionsPanelMoveDuration)
+            .SetEase(optionsPanelEase)
+            .OnComplete(() =>
+            {
+                if (!optionsOpen) optionsPanel.SetActive(false);
+            });
     }
     
     public void HideOptionsPanel()

@@ -9,7 +9,7 @@ public class ProceduralMapGenerator : MonoBehaviour, ITickable
     {
         public string nodeType;           
         public int    prewarmCount = 3;  
-        public string particlePrefabKey; 
+        // public string particlePrefabKey; 
     }
 
     [Header("Refs")]
@@ -23,15 +23,25 @@ public class ProceduralMapGenerator : MonoBehaviour, ITickable
     [SerializeField] private float nodeScrollSpeed = 1.5f;
     private string spritesFolder = "Maps/Sprites";
 
-    [Header("Node Type Configs")]
+    // [Header("Node Type Configs")]
+    // [SerializeField] private List<NodeTypeConfig> nodeConfigs = new List<NodeTypeConfig>
+    // {
+    //     new NodeTypeConfig { nodeType = "planet_rocky",  prewarmCount = 3, particlePrefabKey = "RockyRing"       },
+    //     new NodeTypeConfig { nodeType = "nebula_purple", prewarmCount = 3, particlePrefabKey = "NebulaPurpleRing" },
+    //     new NodeTypeConfig { nodeType = "nebula_blue",   prewarmCount = 3, particlePrefabKey = "NebulaBlueRing"   },
+    //     new NodeTypeConfig { nodeType = "asteroid",      prewarmCount = 4, particlePrefabKey = "AsteroidTrail"    },
+    //     new NodeTypeConfig { nodeType = "planet_gas",    prewarmCount = 2, particlePrefabKey = "GasRing"          },
+    //     new NodeTypeConfig { nodeType = "debris",        prewarmCount = 3, particlePrefabKey = ""                 },
+    // };
+    
     [SerializeField] private List<NodeTypeConfig> nodeConfigs = new List<NodeTypeConfig>
     {
-        new NodeTypeConfig { nodeType = "planet_rocky",  prewarmCount = 3, particlePrefabKey = "RockyRing"       },
-        new NodeTypeConfig { nodeType = "nebula_purple", prewarmCount = 3, particlePrefabKey = "NebulaPurpleRing" },
-        new NodeTypeConfig { nodeType = "nebula_blue",   prewarmCount = 3, particlePrefabKey = "NebulaBlueRing"   },
-        new NodeTypeConfig { nodeType = "asteroid",      prewarmCount = 4, particlePrefabKey = "AsteroidTrail"    },
-        new NodeTypeConfig { nodeType = "planet_gas",    prewarmCount = 2, particlePrefabKey = "GasRing"          },
-        new NodeTypeConfig { nodeType = "debris",        prewarmCount = 3, particlePrefabKey = ""                 },
+        new NodeTypeConfig { nodeType = "planet_rocky",  prewarmCount = 3 },
+        new NodeTypeConfig { nodeType = "nebula_purple", prewarmCount = 3 },
+        new NodeTypeConfig { nodeType = "nebula_blue",   prewarmCount = 3 },
+        new NodeTypeConfig { nodeType = "asteroid",      prewarmCount = 4 },
+        new NodeTypeConfig { nodeType = "planet_gas",    prewarmCount = 2 },
+        new NodeTypeConfig { nodeType = "debris",        prewarmCount = 3 },
     };
 
     [Header("Asteroid Movement")]
@@ -40,18 +50,18 @@ public class ProceduralMapGenerator : MonoBehaviour, ITickable
     [SerializeField] private float asteroidAngleMin = 10f;  // degrees below horizontal
     [SerializeField] private float asteroidAngleMax = 40f;
 
-    [Header("Bundle")]
-    [SerializeField] private string bundleFolderPath = "NodeBundles";
-    [SerializeField] private string bundleName       = "nodeparticles";
-    
+    // [Header("Bundle")]
+    // [SerializeField] private string bundleFolderPath = "NodeBundles";
+    // [SerializeField] private string bundleName       = "nodeparticles";
+    //
     private MapLayoutData layout;
     private int nextNodeIndex;
     private bool enabled_ = true;
     private bool isReady  = false;
 
-    private AssetBundle particleBundle;
+    // private AssetBundle particleBundle;
     private readonly Dictionary<string, Queue<NodeInstance>> pools = new Dictionary<string, Queue<NodeInstance>>();
-    private readonly Dictionary<string, GameObject> particlePrefabs = new Dictionary<string, GameObject>();
+    // private readonly Dictionary<string, GameObject> particlePrefabs = new Dictionary<string, GameObject>();
 
     private readonly List<NodeInstance> activeNodes = new List<NodeInstance>();
     private const float DespawnY = -12f;
@@ -77,11 +87,11 @@ public class ProceduralMapGenerator : MonoBehaviour, ITickable
 
     private void OnDestroy()
     {
-        if (particleBundle != null)
-        {
-            particleBundle.Unload(false);
-            particleBundle = null;
-        }
+        // if (particleBundle != null)
+        // {
+        //     particleBundle.Unload(false);
+        //     particleBundle = null;
+        // }
         // if (GameManager.instance != null)
         //     GameManager.instance.UnregisterTickable(this);
     }
@@ -106,25 +116,25 @@ public class ProceduralMapGenerator : MonoBehaviour, ITickable
 
     private IEnumerator LoadBundleThenLayout(int levelId)
     {
-        // load bundle if not already loaded
-        if (particleBundle == null)
-            yield return StartCoroutine(LoadBundleRoutine());
-
-        // cache particle prefabs from bundle
-        if (particleBundle != null)
-        {
-            foreach (var cfg in nodeConfigs)
-            {
-                if (string.IsNullOrEmpty(cfg.particlePrefabKey)) continue;
-                if (particlePrefabs.ContainsKey(cfg.particlePrefabKey)) continue;
-
-                GameObject prefab = particleBundle.LoadAsset<GameObject>(cfg.particlePrefabKey);
-                if (prefab != null)
-                    particlePrefabs[cfg.particlePrefabKey] = prefab;
-                else
-                    Debug.LogWarning($"prefab '{cfg.particlePrefabKey}' not found in bundle");
-            }
-        }
+        // // load bundle if not already loaded
+        // if (particleBundle == null)
+        //     yield return StartCoroutine(LoadBundleRoutine());
+        //
+        // // cache particle prefabs from bundle
+        // if (particleBundle != null)
+        // {
+        //     foreach (var cfg in nodeConfigs)
+        //     {
+        //         if (string.IsNullOrEmpty(cfg.particlePrefabKey)) continue;
+        //         if (particlePrefabs.ContainsKey(cfg.particlePrefabKey)) continue;
+        //
+        //         GameObject prefab = particleBundle.LoadAsset<GameObject>(cfg.particlePrefabKey);
+        //         if (prefab != null)
+        //             particlePrefabs[cfg.particlePrefabKey] = prefab;
+        //         else
+        //             Debug.LogWarning($"prefab '{cfg.particlePrefabKey}' not found in bundle");
+        //     }
+        // }
 
         // prewarm pools
         foreach (var cfg in nodeConfigs)
@@ -134,25 +144,25 @@ public class ProceduralMapGenerator : MonoBehaviour, ITickable
         yield return StartCoroutine(LoadLayoutRoutine(levelId));
     }
 
-    private IEnumerator LoadBundleRoutine()
-    {
-        string path = System.IO.Path.Combine(Application.streamingAssetsPath, bundleFolderPath, bundleName);
-
-        using UnityWebRequest req = UnityWebRequestAssetBundle.GetAssetBundle(path);
-        yield return req.SendWebRequest();
-
-        if (req.result != UnityWebRequest.Result.Success)
-        {
-            Debug.LogWarning($"bundle load failed: {req.error} at {path}");
-            yield break;
-        }
-
-        particleBundle = DownloadHandlerAssetBundle.GetContent(req);
-        if (particleBundle == null)
-            Debug.LogWarning("bundle was null after download");
-        else
-            Debug.Log("particle bundle loaded");
-    }
+    // private IEnumerator LoadBundleRoutine()
+    // {
+    //     string path = System.IO.Path.Combine(Application.streamingAssetsPath, bundleFolderPath, bundleName);
+    //
+    //     using UnityWebRequest req = UnityWebRequestAssetBundle.GetAssetBundle(path);
+    //     yield return req.SendWebRequest();
+    //
+    //     if (req.result != UnityWebRequest.Result.Success)
+    //     {
+    //         Debug.LogWarning($"bundle load failed: {req.error} at {path}");
+    //         yield break;
+    //     }
+    //
+    //     particleBundle = DownloadHandlerAssetBundle.GetContent(req);
+    //     if (particleBundle == null)
+    //         Debug.LogWarning("bundle was null after download");
+    //     else
+    //         Debug.Log("particle bundle loaded");
+    // }
 
     private IEnumerator LoadLayoutRoutine(int levelId)
     {
@@ -197,17 +207,18 @@ public class ProceduralMapGenerator : MonoBehaviour, ITickable
 
         SpriteRenderer sr = root.AddComponent<SpriteRenderer>();
 
-        ParticleSystem ps = null;
-        if (!string.IsNullOrEmpty(cfg.particlePrefabKey) &&
-            particlePrefabs.TryGetValue(cfg.particlePrefabKey, out GameObject prefab))
-        {
-            GameObject psGO = Instantiate(prefab, root.transform);
-            psGO.transform.localPosition = Vector3.zero;
-            ps = psGO.GetComponent<ParticleSystem>();
-            if (ps != null) ps.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
-        }
-
-        return new NodeInstance { root = root, sr = sr, particles = ps, nodeType = cfg.nodeType };
+        // ParticleSystem ps = null;
+        // if (!string.IsNullOrEmpty(cfg.particlePrefabKey) &&
+        //     particlePrefabs.TryGetValue(cfg.particlePrefabKey, out GameObject prefab))
+        // {
+        //     GameObject psGO = Instantiate(prefab, root.transform);
+        //     psGO.transform.localPosition = Vector3.zero;
+        //     ps = psGO.GetComponent<ParticleSystem>();
+        //     if (ps != null) ps.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+        // }
+        //
+        // return new NodeInstance { root = root, sr = sr, particles = ps, nodeType = cfg.nodeType };
+        return new NodeInstance { root = root, sr = sr, nodeType = cfg.nodeType };
     }
 
     private NodeInstance GetFromPool(string nodeType)
