@@ -1,4 +1,4 @@
-using SQLite4Unity3d;
+/*using SQLite4Unity3d;
 
 [Table("Enemy")]
 public class EnemyStatsRow
@@ -56,4 +56,4 @@ public class PlayerBestRow
     public int    enemies_killed { get; set; }
     public int    lives_lost     { get; set; }
     public string timestamp      { get; set; }
-}
+}*/

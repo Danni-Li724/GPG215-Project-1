@@ -6,6 +6,7 @@ public class LevelInfoSO : ScriptableObject
     [Header("Level")]
     public string levelName = "";
     public int mileageGoal = 100;
+    public AudioClip levelMusic;
     
     // public int sqlLevelId = 0;
     

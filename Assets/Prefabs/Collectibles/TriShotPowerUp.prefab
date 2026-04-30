@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6438305881008754951}
   - component: {fileID: 8500953240653900859}
   - component: {fileID: 2558764512327052890}
+  - component: {fileID: 7503367736480486506}
   m_Layer: 0
   m_Name: TriShotPowerUp
   m_TagString: Untagged
@@ -138,3 +139,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   powerUpType: 0
+--- !u!114 &7503367736480486506
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1515093067144739456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 555e68654e622cd4cad8bd787431dc2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slowY: -4
+  destroyY: -13
+  fastSpeed: 1.5
+  slowSpeed: 0.5

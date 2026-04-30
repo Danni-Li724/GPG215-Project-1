@@ -14,8 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelName: Theo
   mileageGoal: 300
-  sqlLevelId: 2
-  levelBoss: {fileID: 5287418757908217734, guid: 563cd4d044607db47b0448d9c12dfbd1, type: 3}
+  levelMusic: {fileID: 8300000, guid: 1416a829b6bbebb43bffb9aed1e036c0, type: 3}
+  levelEnemies: {fileID: 11400000, guid: 21b3afa07c284c74cb13127336cc5961, type: 2}
+  levelMap: {fileID: 11400000, guid: dae1101b66ad2a043987344f38ab0111, type: 2}
+  levelBoss: {fileID: 5287418757908217734, guid: 088b799be6908154ea059c19b303ead2, type: 3}
   bossSpawnPos: {fileID: 3174087043070343920, guid: 944aa40831ad674448b459f86a3022f5, type: 3}
   bossFinalPos: {fileID: 6934110016549617017, guid: b98d697aa81b3944d81ea8a8b5940a16, type: 3}
   bossMoveSpeed: 4
@@ -27,5 +29,3 @@ MonoBehaviour:
   bossNoticeDuration: 3
   arrivalNoticeText: 'You have arrived at: Theo'
   arrivalNoticeDuration: 3
-  mapSpritesSubfolder: Level2
-  dlcPackId: Level 2

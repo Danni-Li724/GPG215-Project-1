@@ -12,5 +12,5 @@ public class EnemySO : ScriptableObject
     public int   maxHealth   = 3;
     public float speed       = 1f;
     public float dropRate    = 0.2f;
-    public int   hitVFXType  = 1;
+    public HitVFXType hitVFXType = HitVFXType.Default;
 }

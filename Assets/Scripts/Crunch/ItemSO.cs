@@ -15,4 +15,5 @@ public class ItemSO : ScriptableObject
     public float fireDPS             = 0f;
     public float fireSpreadRadius    = 0f;
     public float fireStackMultiplier = 0f;
+    public GameObject fireEffectPrefab;
 }

@@ -87,6 +87,9 @@ public class GameManager : MonoBehaviour
         // if (defaultRangerContext != null) tickables.Add(defaultRangerContext);
         EnemySpawnSystem spawner = FindFirstObjectByType<EnemySpawnSystem>();
         if (spawner != null) tickables.Add(spawner);
+        
+        PowerUpSpawnSystem powerUpSpawner = FindFirstObjectByType<PowerUpSpawnSystem>();
+        if (powerUpSpawner != null) tickables.Add(powerUpSpawner);
     }
 
     public void BeginRun()
@@ -96,11 +99,16 @@ public class GameManager : MonoBehaviour
         goalTriggered = false;
         absoluteMileageGoal = sessionMileageOffset +
                               (CurrentLevel != null ? CurrentLevel.mileageGoal : 0);
+        
 
-        if (SoundManager.instance != null) SoundManager.instance.SetGameState();
+        if (SoundManager.instance != null)
+            SoundManager.instance.SetLevelMusic(CurrentLevel?.levelMusic);
 
         EnemySpawnSystem spawner = FindFirstObjectByType<EnemySpawnSystem>();
         if (spawner != null) spawner.ResetSpawner();
+        
+        PowerUpSpawnSystem powerUpSpawner = FindFirstObjectByType<PowerUpSpawnSystem>();
+        powerUpSpawner?.ResetSpawner();
 
         // // load dlc skin
         // LevelSkinApplier skinApplier = FindFirstObjectByType<LevelSkinApplier>();
@@ -201,9 +209,6 @@ public class GameManager : MonoBehaviour
         activeBoss = bossObj.GetComponent<LevelBoss>();
         if (activeBoss != null) activeBoss.Activate(level.bossSpawnPos.position);
         
-        if (LevelSkinApplier.Instance != null)
-            LevelSkinApplier.Instance.ApplySkinToBoss(bossObj);
-        
         bossSpawned   = true;
         isLerpingBoss = true;
         shouldShoot   = true;
@@ -283,7 +288,6 @@ public class GameManager : MonoBehaviour
         ResetLevel();
         if (mileageSystem != null) mileageSystem.SetStartMileage(sessionMileageOffset);
         SetupLevelEnemies();
-
         // absolute goal is where the player is currently (milleage wise) + this (new) level's goal
         absoluteMileageGoal = sessionMileageOffset +
                               (CurrentLevel != null ? CurrentLevel.mileageGoal : 0);

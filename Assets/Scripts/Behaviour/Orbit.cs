@@ -2,11 +2,16 @@ using UnityEngine;
 
 public class Orbit : MonoBehaviour
 {
-    [SerializeField] private Transform center;
+    private Transform center;
     [SerializeField] private float radius = 2f;
     [SerializeField] private float degreesPerSecond = 90f;
 
     private float angle;
+
+    private void Start()
+    {
+        center = FindObjectOfType<PlayerMovement>().transform;
+    }
 
     private void DoOrbit()
     {

@@ -139,6 +139,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56ccce79ffd7af347aeae7ea3a2dc2c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stats: {fileID: 11400000, guid: c4c9bf3294e245a46add388cc055d231, type: 2}
   maxHealth: 15
   speed: 1.2
   hitVFXType: 1

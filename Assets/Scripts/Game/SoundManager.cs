@@ -67,6 +67,11 @@ public class SoundManager : MonoBehaviour
         inGame = true;
         PlaySequence();
     }
+    
+    public void SetLevelMusic(AudioClip clip)
+    {
+        PlayMusic(clip != null ? clip : backgroundMusic);
+    }
 
     private void PlayMusic(AudioClip clip)
     {

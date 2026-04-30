@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e180fb98542c2941a83f12681786158, type: 3}
+  m_Name: Level1 Enemies
+  m_EditorClassIdentifier: 
+  clasherEnemies:
+  - {fileID: 6233220089318036159, guid: 9959589759727bb4b950d89f89ba1215, type: 3}
+  - {fileID: 6233220089318036159, guid: 1ea27452e43ca944ab85f0d45691eda1, type: 3}
+  - {fileID: 6233220089318036159, guid: be7fc26ec70bd00498d70b2261c32827, type: 3}
+  - {fileID: 6233220089318036159, guid: 3bd7ab74fd6e24849bcdf30d0596c197, type: 3}
+  rangerEnemies:
+  - {fileID: 1689610399247869113, guid: e0c4466cf36f4824d87bf0810f0fd047, type: 3}
+  boss: {fileID: 5287418757908217734, guid: 563cd4d044607db47b0448d9c12dfbd1, type: 3}

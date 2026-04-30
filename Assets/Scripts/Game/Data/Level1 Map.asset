@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5660b19c89683d14aae541a8d7302c94, type: 3}
+  m_Name: Level1 Map
+  m_EditorClassIdentifier: 
+  nodes:
+  - nodeType: planet_rocky
+    spawnDistance: 20
+    sprites:
+    - {fileID: 21300000, guid: edad2b2a6ff04c44aa52729ed3ee5a73, type: 3}
+    - {fileID: 21300000, guid: 374d495b8b7564b4bb76d97c56a09bee, type: 3}
+    layer: -2
+    alpha: 1
+    scaleMin: 0.5
+    scaleMax: 0.7
+  - nodeType: nebula_purple
+    spawnDistance: 15
+    sprites:
+    - {fileID: 21300000, guid: e6b6ebc089505fe4886b0db73e836b5e, type: 3}
+    layer: -4
+    alpha: 0.4
+    scaleMin: 0.3
+    scaleMax: 0.35
+  - nodeType: planet_gas
+    spawnDistance: 50
+    sprites:
+    - {fileID: 21300000, guid: c8e2aaa5deb1de84d95aa5773de39422, type: 3}
+    - {fileID: 21300000, guid: 455f2b1822f60fd4fbad2616c45cee5f, type: 3}
+    layer: -3
+    alpha: 1
+    scaleMin: 0.4
+    scaleMax: 0.5
+  - nodeType: asteroid
+    spawnDistance: 50
+    sprites:
+    - {fileID: 21300000, guid: 0766fd90a865b384bad00825e5fb6aea, type: 3}
+    - {fileID: 21300000, guid: 320c7ad06911f5a4ab4ef61d6755ae8c, type: 3}
+    layer: -1
+    alpha: 1
+    scaleMin: 0.25
+    scaleMax: 0.35
+  - nodeType: nebula_blue
+    spawnDistance: 40
+    sprites:
+    - {fileID: 21300000, guid: 9f4aa1c52e2c2594499e441efc75e024, type: 3}
+    layer: -1
+    alpha: 0.3
+    scaleMin: 0.3
+    scaleMax: 0.4
+  - nodeType: debris
+    spawnDistance: 80
+    sprites:
+    - {fileID: 21300000, guid: 6f9ee6b007738d44f97a2115b68559a9, type: 3}
+    - {fileID: 21300000, guid: d5437c9a232489844a82cd1eda5707af, type: 3}
+    layer: -1
+    alpha: 1
+    scaleMin: 0.4
+    scaleMax: 0.5

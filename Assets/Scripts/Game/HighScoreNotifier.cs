@@ -20,7 +20,7 @@ public class HighScoreNotifier : MonoBehaviour
     {
         label.text = $"New Best: {newBestMileage} miles!";
         if (routine != null) StopCoroutine(routine);
-        routine = StartCoroutine(ShowRoutine());
+        // routine = StartCoroutine(ShowRoutine());
     }
 
     private IEnumerator ShowRoutine()

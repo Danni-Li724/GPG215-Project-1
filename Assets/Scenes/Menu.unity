@@ -8302,7 +8302,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   musicSource: {fileID: 1646579698}
   backgroundMusic: {fileID: 8300000, guid: dd11140e92dcd3448bc99bc0cebc0f41, type: 3}
-  menuMusic: {fileID: 8300000, guid: dd11140e92dcd3448bc99bc0cebc0f41, type: 3}
+  menuMusic: {fileID: 8300000, guid: b584a48484838ea458b7b24644432f02, type: 3}
   musicVolume: 0.2
   inMenu: 0
   inGame: 0

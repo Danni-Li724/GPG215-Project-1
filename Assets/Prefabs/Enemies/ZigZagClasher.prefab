@@ -139,6 +139,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7458bea3c34cba4382bc1a257b28893, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stats: {fileID: 11400000, guid: 27372b005f9bd7e4fbddb184e25372c6, type: 2}
   maxHealth: 15
   speed: 1
   hitVFXType: 2
@@ -154,7 +155,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb0de6386f741dd4d82b26c46a755503, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  forward: {x: 1, y: 0}
-  forwardSpeed: 1.5
   zigAmplitude: 0.5
   zigFrequency: 3
+  boundaryX: 2.5
