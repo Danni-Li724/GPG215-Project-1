@@ -581,7 +581,7 @@ MonoBehaviour:
   applyButton: {fileID: 2044149455}
   closeButton: {fileID: 295162906}
   starfield: {fileID: 631522637}
-  mapGenerator: {fileID: 1500178154}
+  mapGenerator: {fileID: 0}
 --- !u!114 &59654812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3029,7 +3029,7 @@ Transform:
   m_GameObject: {fileID: 388471300}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 19.390366, y: 33.702175, z: -0.38526613}
+  m_LocalPosition: {x: 0, y: 0, z: -0.38526613}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -14391,49 +14391,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1500178155}
-  - component: {fileID: 1500178154}
+  - component: {fileID: 1500178156}
   m_Layer: 0
   m_Name: ProceduralMap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!114 &1500178154
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1500178153}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d435eba65c9af54a95565d197a69fc0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mileageSystem: {fileID: 1501583066}
-  nodeParent: {fileID: 1835236326}
-  pixelsPerUnit: 100
-  spawnXRange: {x: -10, y: 10}
-  spawnY: 18
-  nodeScrollSpeed: 2
-  nodeConfigs:
-  - nodeType: planet_rocky
-    prewarmCount: 3
-  - nodeType: nebula_purple
-    prewarmCount: 3
-  - nodeType: nebula_blue
-    prewarmCount: 3
-  - nodeType: asteroid
-    prewarmCount: 4
-  - nodeType: planet_gas
-    prewarmCount: 2
-  - nodeType: debris
-    prewarmCount: 3
-  asteroidSpeedMin: 0.8
-  asteroidSpeedMax: 1.8
-  asteroidAngleMin: 10
-  asteroidAngleMax: 40
+  m_IsActive: 1
 --- !u!4 &1500178155
 Transform:
   m_ObjectHideFlags: 0
@@ -14443,13 +14408,64 @@ Transform:
   m_GameObject: {fileID: 1500178153}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 18, z: -1.243904}
+  m_LocalPosition: {x: 0, y: 0, z: -1.243904}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1835236326}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1500178156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1500178153}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92399857a1f27ad4682b49a05a2a0f04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mileageSystem: {fileID: 1501583066}
+  nodeParent: {fileID: 1835236326}
+  nodeTypes:
+  - key: planet_rocky
+    sprites:
+    - {fileID: 21300000, guid: edad2b2a6ff04c44aa52729ed3ee5a73, type: 3}
+    - {fileID: 21300000, guid: 374d495b8b7564b4bb76d97c56a09bee, type: 3}
+    prewarmCount: 3
+  - key: nebula_purple
+    sprites:
+    - {fileID: 21300000, guid: e6b6ebc089505fe4886b0db73e836b5e, type: 3}
+    prewarmCount: 2
+  - key: nebula_blue
+    sprites:
+    - {fileID: 21300000, guid: 9f4aa1c52e2c2594499e441efc75e024, type: 3}
+    prewarmCount: 2
+  - key: asteroid
+    sprites:
+    - {fileID: 21300000, guid: 0766fd90a865b384bad00825e5fb6aea, type: 3}
+    - {fileID: 21300000, guid: 320c7ad06911f5a4ab4ef61d6755ae8c, type: 3}
+    prewarmCount: 3
+  - key: planet_gas
+    sprites:
+    - {fileID: 21300000, guid: c8e2aaa5deb1de84d95aa5773de39422, type: 3}
+    - {fileID: 21300000, guid: 455f2b1822f60fd4fbad2616c45cee5f, type: 3}
+    prewarmCount: 3
+  - key: debris
+    sprites:
+    - {fileID: 21300000, guid: 6f9ee6b007738d44f97a2115b68559a9, type: 3}
+    - {fileID: 21300000, guid: d5437c9a232489844a82cd1eda5707af, type: 3}
+    prewarmCount: 3
+  spawnXRange: {x: -8, y: 8}
+  spawnY: 18
+  nodeScrollSpeed: 1.5
+  spawnCooldown: 0.4
+  asteroidSpeedMin: 2
+  asteroidSpeedMax: 3
+  asteroidAngleMin: 10
+  asteroidAngleMax: 120
 --- !u!1 &1501583060
 GameObject:
   m_ObjectHideFlags: 0
@@ -16827,7 +16843,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioSource: {fileID: 0}
   waveWidth: 5
-  waveHeight: 2
+  waveHeight: 1.3
   sampleCount: 400
   lineStartWidth: 0.06
   lineEndWidth: 0.06

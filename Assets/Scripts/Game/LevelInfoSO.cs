@@ -3,10 +3,17 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Game/Level Info", fileName = "LevelInfo")]
 public class LevelInfoSO : ScriptableObject
 {
+    [Header("Level")]
     public string levelName = "";
     public int mileageGoal = 100;
     
-    public int sqlLevelId = 0;
+    // public int sqlLevelId = 0;
+    
+    [Header("Enemies")]
+    public LevelEnemiesSO levelEnemies;
+    
+    [Header("Map")]
+    public LevelMapSO levelMap;
 
     [Header("Boss")]
     public GameObject levelBoss;
@@ -26,7 +33,7 @@ public class LevelInfoSO : ScriptableObject
     public string arrivalNoticeText;
     public float arrivalNoticeDuration = 3f;
     
-    [Header("DLC")]
-    public string mapSpritesSubfolder = "Level1"; 
-    public string dlcPackId;
+    // [Header("DLC")]
+    // public string mapSpritesSubfolder = "Level1"; 
+    // public string dlcPackId;
 }

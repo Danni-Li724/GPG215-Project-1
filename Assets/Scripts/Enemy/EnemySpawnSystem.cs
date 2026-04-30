@@ -14,7 +14,11 @@ public class EnemySpawnSystem : MonoBehaviour, ITickable
     }
 
     [Header("Spawn Configs")]
-    [SerializeField] private List<EnemySpawnConfig> configs = new List<EnemySpawnConfig>();
+    // [SerializeField] private List<EnemySpawnConfig> configs = new List<EnemySpawnConfig>();
+    private List<EnemySpawnConfig> activeConfigs = new List<EnemySpawnConfig>();
+    
+    [Header("Rate Template")]
+    [SerializeField] private List<EnemySpawnConfig> rateTemplates = new List<EnemySpawnConfig>(); // one per enemy in LevelEnemiesSO.AllEnemies() order
 
     [Header("Refs")]
     [SerializeField] private EnemyManager enemyManager;
@@ -27,9 +31,34 @@ public class EnemySpawnSystem : MonoBehaviour, ITickable
     private float elapsedTime;
     [SerializeField] private float maxPerformanceBonus = 10f;
 
-    private void Awake()
+    // private void Awake()
+    // {
+    //     spawnAccumulators = new float[configs.Count];
+    // }
+    
+    public void SetupForLevel(LevelEnemiesSO levelEnemies)
     {
-        spawnAccumulators = new float[configs.Count];
+        activeConfigs.Clear();
+
+        List<GameObject> all = levelEnemies != null ? levelEnemies.AllEnemies() : new List<GameObject>();
+
+        for (int i = 0; i < all.Count; i++)
+        {
+            // reuse template rates if available, otherwise use defaults
+            EnemySpawnConfig template = i < rateTemplates.Count ? rateTemplates[i] : null;
+
+            activeConfigs.Add(new EnemySpawnConfig
+            {
+                label               = all[i] != null ? all[i].name : $"Enemy_{i}",
+                poolIndex           = i,                                                        
+                baseSpawnsPerMinute = template != null ? template.baseSpawnsPerMinute : 3f,
+                rateMultiplier      = template != null ? template.rateMultiplier      : 0.5f,
+                maxSpawnsPerMinute  = template != null ? template.maxSpawnsPerMinute  : 10f,
+            });
+        }
+
+        spawnAccumulators = new float[activeConfigs.Count];
+        Debug.Log($"EnemySpawnSystem: {activeConfigs.Count} configs for level");
     }
 
     public void Tick(float dt)
@@ -39,9 +68,9 @@ public class EnemySpawnSystem : MonoBehaviour, ITickable
         float perfScore = performanceTracker != null ? performanceTracker.PerformanceScore : 0.5f;
         float performanceBonus = perfScore * maxPerformanceBonus;
 
-        for (int i = 0; i < configs.Count; i++)
+        for (int i = 0; i < activeConfigs.Count; i++)
         {
-            EnemySpawnConfig cfg = configs[i];
+            EnemySpawnConfig cfg = activeConfigs[i];
             float tMinutes = t / 60f;
             float spawnsPerMinute = cfg.baseSpawnsPerMinute + cfg.rateMultiplier * tMinutes + performanceBonus;
             spawnsPerMinute = Mathf.Clamp(spawnsPerMinute, 0f, cfg.maxSpawnsPerMinute);

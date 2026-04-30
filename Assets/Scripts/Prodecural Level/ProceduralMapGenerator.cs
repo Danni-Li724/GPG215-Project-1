@@ -137,11 +137,12 @@ public class ProceduralMapGenerator : MonoBehaviour, ITickable
         // }
 
         // prewarm pools
-        foreach (var cfg in nodeConfigs)
-            PrewarmPool(cfg);
+       
+            foreach (var cfg in nodeConfigs)
+                yield return StartCoroutine(PrewarmPoolAsync(cfg));
 
-        // load JSON layout
-        yield return StartCoroutine(LoadLayoutRoutine(levelId));
+            yield return StartCoroutine(LoadLayoutRoutine(levelId));
+        
     }
 
     // private IEnumerator LoadBundleRoutine()
@@ -190,13 +191,24 @@ public class ProceduralMapGenerator : MonoBehaviour, ITickable
 
     
     // pooling
-    private void PrewarmPool(NodeTypeConfig cfg)
+    // private void PrewarmPool(NodeTypeConfig cfg)
+    // {
+    //     if (!pools.ContainsKey(cfg.nodeType))
+    //         pools[cfg.nodeType] = new Queue<NodeInstance>();
+    //
+    //     for (int i = 0; i < cfg.prewarmCount; i++)
+    //         pools[cfg.nodeType].Enqueue(CreateNodeInstance(cfg));
+    // }
+    
+    private IEnumerator PrewarmPoolAsync(NodeTypeConfig cfg)
     {
         if (!pools.ContainsKey(cfg.nodeType))
             pools[cfg.nodeType] = new Queue<NodeInstance>();
-
         for (int i = 0; i < cfg.prewarmCount; i++)
+        {
             pools[cfg.nodeType].Enqueue(CreateNodeInstance(cfg));
+            yield return null;
+        }
     }
 
     private NodeInstance CreateNodeInstance(NodeTypeConfig cfg)

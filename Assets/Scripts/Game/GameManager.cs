@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     public EnemyManager enemyManager;
     public EnemyBulletManager enemyBulletManager;
     public MileageSystem mileageSystem;
-    public DefaultRangerContext defaultRangerContext;
+    // public DefaultRangerContext defaultRangerContext;
 
     private readonly List<ITickable> tickables = new List<ITickable>();
 
@@ -58,11 +58,12 @@ public class GameManager : MonoBehaviour
         BuildTickableList();
         isRunning   = false;
         shouldShoot = false;
-
-        if (levelInfoPanel != null && CurrentLevel != null)
-            levelInfoPanel.Show(CurrentLevel);
         if (hudUI != null)
             hudUI.BindPanels(gameOverPanel);
+        SetupLevelEnemies();
+        if (levelInfoPanel != null && CurrentLevel != null)
+            levelInfoPanel.Show(CurrentLevel);
+        // prewarming when panel is showing to avoid the glitch
     }
     
     public void RegisterTickable(ITickable t)
@@ -83,12 +84,11 @@ public class GameManager : MonoBehaviour
         if (enemyManager != null)         tickables.Add(enemyManager);
         if (enemyBulletManager != null)   tickables.Add(enemyBulletManager);
         if (mileageSystem != null)        tickables.Add(mileageSystem);
-        if (defaultRangerContext != null) tickables.Add(defaultRangerContext);
+        // if (defaultRangerContext != null) tickables.Add(defaultRangerContext);
         EnemySpawnSystem spawner = FindFirstObjectByType<EnemySpawnSystem>();
         if (spawner != null) tickables.Add(spawner);
     }
 
-    // MODIFIED: BeginRun() — set absolute goal for level 1 too
     public void BeginRun()
     {
         isRunning     = true;
@@ -102,18 +102,22 @@ public class GameManager : MonoBehaviour
         EnemySpawnSystem spawner = FindFirstObjectByType<EnemySpawnSystem>();
         if (spawner != null) spawner.ResetSpawner();
 
-        ProceduralMapGenerator mapGen = FindFirstObjectByType<ProceduralMapGenerator>();
-        if (mapGen != null && CurrentLevel != null)
-        {
-            string subfolder = !string.IsNullOrEmpty(CurrentLevel.mapSpritesSubfolder)
-                ? CurrentLevel.mapSpritesSubfolder : "Level1";
-            mapGen.BeginLevel(CurrentLevel.sqlLevelId > 0 ? CurrentLevel.sqlLevelId : 1, subfolder);
-        }
+        // // load dlc skin
+        // LevelSkinApplier skinApplier = FindFirstObjectByType<LevelSkinApplier>();
+        // if (skinApplier != null && CurrentLevel != null)
+        //     skinApplier.BeginLevel(CurrentLevel.dlcPackId);
+        UseLocalMapGen();
+    }
+    
+    private void SetupLevelEnemies()
+    {
+        LevelInfoSO level = CurrentLevel;
+        if (level == null || level.levelEnemies == null) return;
 
-        // load dlc skin
-        LevelSkinApplier skinApplier = FindFirstObjectByType<LevelSkinApplier>();
-        if (skinApplier != null && CurrentLevel != null)
-            skinApplier.BeginLevel(CurrentLevel.dlcPackId);
+        enemyManager?.SetupForLevel(level.levelEnemies);
+
+        EnemySpawnSystem spawner = FindFirstObjectByType<EnemySpawnSystem>();
+        spawner?.SetupForLevel(level.levelEnemies);
     }
 
     public void ResumeRun()
@@ -162,7 +166,7 @@ public class GameManager : MonoBehaviour
         return new RunStats { enemiesKilled = killed, mileageTraveled = traveled,
             mileageRemaining = remaining, livesLost = lost };
     }
-    // MODIFIED: CheckMileageGoalReached() — use absoluteMileageGoal not levelGoal
+
     private void CheckMileageGoalReached()
     {
         if (goalTriggered) return;
@@ -278,18 +282,21 @@ public class GameManager : MonoBehaviour
         GoToNextLevel();
         ResetLevel();
         if (mileageSystem != null) mileageSystem.SetStartMileage(sessionMileageOffset);
+        SetupLevelEnemies();
 
         // absolute goal is where the player is currently (milleage wise) + this (new) level's goal
         absoluteMileageGoal = sessionMileageOffset +
                               (CurrentLevel != null ? CurrentLevel.mileageGoal : 0);
         if (levelInfoPanel != null && CurrentLevel != null) levelInfoPanel.Show(CurrentLevel);
+        UseLocalMapGen();
     }
 
     public void RestartCurrentLevel()
     {
         sessionMileageOffset = 0;
         ResetLevel();
-        if (levelInfoPanel != null && CurrentLevel != null) levelInfoPanel.Show(CurrentLevel);
+        SetupLevelEnemies();
+        levelInfoPanel?.Show(CurrentLevel);
     }
 
     private void GoToNextLevel()
@@ -309,5 +316,30 @@ public class GameManager : MonoBehaviour
         shouldShoot          = false;
         if (activeDestination != null) { Destroy(activeDestination); activeDestination = null; }
         if (activeBoss != null)        { Destroy(activeBoss.gameObject); activeBoss = null; }
+    }
+
+    // private void UseStreamingMapGen()
+    // {
+    //     ProceduralMapGenerator mapGen = FindFirstObjectByType<ProceduralMapGenerator>();
+    //     if (mapGen != null && CurrentLevel != null)
+    //     {
+    //         string subfolder = !string.IsNullOrEmpty(CurrentLevel.mapSpritesSubfolder)
+    //             ? CurrentLevel.mapSpritesSubfolder : "Level1";
+    //         mapGen.BeginLevel(CurrentLevel.sqlLevelId > 0 ? CurrentLevel.sqlLevelId : 1, subfolder);
+    //     }
+    // }
+    
+    private void UseLocalMapGen()
+    {
+        // ProceduralMapLocal mapGen = FindFirstObjectByType<ProceduralMapLocal>();
+        // if (mapGen != null && CurrentLevel != null)
+        // {
+        //     string subfolder = !string.IsNullOrEmpty(CurrentLevel.mapSpritesSubfolder)
+        //         ? CurrentLevel.mapSpritesSubfolder : "Level1";
+        //     mapGen.BeginLevel(CurrentLevel.sqlLevelId > 0 ? CurrentLevel.sqlLevelId : 1, subfolder);
+        // }
+        ProceduralMapGeneratorLocal mapGen = FindFirstObjectByType<ProceduralMapGeneratorLocal>();
+        if (mapGen != null && CurrentLevel?.levelMap != null)
+            mapGen.BeginLevel(CurrentLevel.levelMap);
     }
 }

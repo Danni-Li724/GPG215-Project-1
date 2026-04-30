@@ -14,6 +14,14 @@ public class EnemyManager : MonoBehaviour, ITickable
     private int nextSpawnIndex;
     public int EnemiesKilled { get; private set; }
     public int CurrentActiveCount => active.Count;
+    
+    public void SetupForLevel(LevelEnemiesSO levelEnemies)
+    {
+        ClearAll();
+        pool.SetupForLevel(levelEnemies);
+        nextSpawnIndex = 0;
+        EnemiesKilled  = 0;
+    }
 
     public void Tick(float dt)
     {
