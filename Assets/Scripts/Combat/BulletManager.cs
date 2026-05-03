@@ -5,10 +5,7 @@ public sealed class BulletManager : MonoBehaviour, ITickable
 {
     [SerializeField] private BulletPool pool;
     [SerializeField] private PlayerPowerUpSystem powerUpSystem;
-
-    // ── ADDED: assign your FireEffect prefab here in inspector ────────────
     [SerializeField] private GameObject fireEffectPrefab;
-    // ─────────────────────────────────────────────────────────────────────
 
     public static BulletManager Instance { get; private set; }
     public bool UseFireballMode { get; set; }

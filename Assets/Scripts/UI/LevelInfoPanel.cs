@@ -25,7 +25,5 @@ public class LevelInfoPanelUI : MonoBehaviour
         gameObject.SetActive(false);
         if (GameManager.instance != null)
             GameManager.instance.BeginRun();
-        else
-            Debug.LogWarning("LevelInfoPanel: GameManager.instance is null — BeginRun skipped");
     }
 }

@@ -1,6 +1,5 @@
 using UnityEngine;
 
-// Replaces LevelInfoSO. Fully SO-driven — no DB ids, no streaming assets paths.
 [CreateAssetMenu(menuName = "Game/Level Info Local", fileName = "LevelInfoLocal")]
 public class LevelInfoSOLocal : ScriptableObject
 {

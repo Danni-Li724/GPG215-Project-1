@@ -1,7 +1,5 @@
 using UnityEngine;
 
-// Abstract base for all powerup effects. Subclasses implement Apply/Remove.
-// PlayerPowerUpSystem owns the active effect and calls EndEffect() after duration.
 public abstract class PowerUpEffect
 {
     protected PlayerShooter shooter;

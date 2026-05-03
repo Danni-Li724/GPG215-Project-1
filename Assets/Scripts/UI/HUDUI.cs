@@ -58,6 +58,18 @@ public class HUDUI : MonoBehaviour
             gameOverPanel = gameOver;
     }
 
+    public void OnStopPlaying()
+    {
+        if (pausePanel != null) pausePanel.SetActive(false);
+        if (GameManager.instance != null)
+        {
+            int livesLost = GameManager.instance.playerLife != null
+                ? GameManager.instance.playerLife.LivesLost
+                : 0;
+            GameManager.instance.GameOver(livesLost);
+        }
+    }
+    
     public void OnBackToMenuPressed()
     {
         SceneManager.LoadScene("Menu");

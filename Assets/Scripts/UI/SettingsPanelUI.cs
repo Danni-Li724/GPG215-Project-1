@@ -3,14 +3,19 @@ using UnityEngine.UI;
 
 public class SettingsPanelUI : MonoBehaviour
 {
+    [Header("Sliders")]
     [SerializeField] private Slider musicVolumeSlider;
     [SerializeField] private Slider sfxVolumeSlider;
+    [Header("Toggles")]
     [SerializeField] private Toggle proceduralBgToggle;
+    [SerializeField] private Toggle leftHandModeToggle;
+    [Header("Buttons")]
     [SerializeField] private Button applyButton;
     [SerializeField] private Button closeButton;
-    
+    [Header("Refs")]
     [SerializeField] private StarfieldController starfield;
-    [SerializeField] private ProceduralMapGenerator mapGenerator;
+    [SerializeField] private ProceduralMapLocal mapGenerator;
+    [SerializeField] private ControlAreaFlipper controlAreaFlipper;
 
     private void Awake()
     {
@@ -24,11 +29,15 @@ public class SettingsPanelUI : MonoBehaviour
         SettingsData current = MirageSaveSystem.Instance != null
             ? MirageSaveSystem.Instance.LoadSettingsOrDefault()
             : new SettingsData();
-
-        musicVolumeSlider.value    = current.musicVolume;
-        sfxVolumeSlider.value      = current.sfxVolume;
-        proceduralBgToggle.isOn    = current.proceduralBgEnabled;
         gameObject.SetActive(true);
+        musicVolumeSlider.interactable = false;
+        sfxVolumeSlider.interactable   = false;
+
+        musicVolumeSlider.value     = current.musicVolume;
+        sfxVolumeSlider.value       = current.sfxVolume;
+        proceduralBgToggle.isOn     = current.proceduralBgEnabled;
+        musicVolumeSlider.interactable = true;
+        sfxVolumeSlider.interactable   = true;
     }
 
     private void OnApply()
@@ -37,7 +46,8 @@ public class SettingsPanelUI : MonoBehaviour
         {
             musicVolume        = musicVolumeSlider.value,
             sfxVolume          = sfxVolumeSlider.value,
-            proceduralBgEnabled = proceduralBgToggle.isOn
+            proceduralBgEnabled = proceduralBgToggle.isOn,
+            leftHandMode        = leftHandModeToggle.isOn
         };
 
         if (MirageSaveSystem.Instance != null)
@@ -50,6 +60,9 @@ public class SettingsPanelUI : MonoBehaviour
 
         if (mapGenerator != null)
             mapGenerator.SetEnabled(data.proceduralBgEnabled);
+        
+        if (controlAreaFlipper != null)
+            controlAreaFlipper.ApplyHandMode(data.leftHandMode);
     }
 
     private void OnClose()

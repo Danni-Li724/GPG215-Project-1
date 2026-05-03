@@ -1,10 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-// Child of the player. Has its own Collider2D (Is Trigger = true) on the
-// Shield layer. Intercepts IDanger hits BEFORE they reach PlayerLifeSystem
-// by consuming the bullet on contact — the bullet deactivates immediately
-// so PlayerLifeSystem never sees it.
 [RequireComponent(typeof(Collider2D))]
 public class ShieldHealth : MonoBehaviour, IDamageable
 {

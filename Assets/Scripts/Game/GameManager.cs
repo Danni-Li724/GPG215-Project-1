@@ -63,7 +63,6 @@ public class GameManager : MonoBehaviour
         SetupLevelEnemies();
         if (levelInfoPanel != null && CurrentLevel != null)
             levelInfoPanel.Show(CurrentLevel);
-        // prewarming when panel is showing to avoid the glitch
     }
     
     public void RegisterTickable(ITickable t)
@@ -277,6 +276,8 @@ public class GameManager : MonoBehaviour
             bool isNewBest = MirageSaveSystem.Instance.TrySaveIfBest(result);
             if (isNewBest && hudUI != null) hudUI.ShowHighScoreNotice(s.mileageTraveled);
         }
+        if (LootLockerManager.Instance != null)
+            LootLockerManager.Instance.SubmitScore(s.mileageTraveled);
 
         if (hudUI != null) hudUI.ShowGameOverPanel(s);
     }
@@ -342,8 +343,8 @@ public class GameManager : MonoBehaviour
         //         ? CurrentLevel.mapSpritesSubfolder : "Level1";
         //     mapGen.BeginLevel(CurrentLevel.sqlLevelId > 0 ? CurrentLevel.sqlLevelId : 1, subfolder);
         // }
-        ProceduralMapGeneratorLocal mapGen = FindFirstObjectByType<ProceduralMapGeneratorLocal>();
-        if (mapGen != null && CurrentLevel?.levelMap != null)
-            mapGen.BeginLevel(CurrentLevel.levelMap);
+            ProceduralMapLocal mapGen = FindFirstObjectByType<ProceduralMapLocal>();
+            if (mapGen != null && CurrentLevel?.levelMap != null)
+                mapGen.BeginLevel(CurrentLevel.levelMap);
     }
 }

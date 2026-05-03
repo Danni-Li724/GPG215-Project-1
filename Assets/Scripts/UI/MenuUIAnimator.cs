@@ -23,9 +23,12 @@ public class MenuUIAnimator : MonoBehaviour
     [SerializeField] private RectTransform optionsButton;
     [SerializeField] private RectTransform startButtonTarget;
     [SerializeField] private RectTransform optionsButtonTarget;
+    [SerializeField] private RectTransform leaderboardButton;
+    [SerializeField] private RectTransform leaderboardButtonTarget;
 
-    [Header("Options Panel")]
+    [Header("Panels")]
     [SerializeField] private GameObject optionsPanel;
+    [SerializeField] private LeaderboardPanelUI leaderboardPanel;
     [SerializeField] private RectTransform optionsPanelGraphic;
     [SerializeField] private RectTransform optionsPanelEnd;
     [SerializeField] private float optionsPanelHideSeconds = 0.25f;
@@ -54,6 +57,7 @@ public class MenuUIAnimator : MonoBehaviour
 
     private Vector2 startButtonStartPos;
     private Vector2 optionsButtonStartPos;
+    private Vector2 leaderboardButtonStartPos;
 
     private Vector2 optionsPanelStartPos;
     private bool optionsOpen;
@@ -61,6 +65,8 @@ public class MenuUIAnimator : MonoBehaviour
     private Tween titleIdleTween;
     private Tween startIdleTween;
     private Tween optionsIdleTween;
+    private Tween leaderboardIdleTween;
+
 
     private void Awake()
     {
@@ -68,6 +74,7 @@ public class MenuUIAnimator : MonoBehaviour
         image2StartPos = DownTerrainImage.anchoredPosition;
         startButtonStartPos = startButton.anchoredPosition;
         optionsButtonStartPos = optionsButton.anchoredPosition;
+        leaderboardButtonStartPos = leaderboardButton.anchoredPosition;
         optionsPanelStartPos = optionsPanelGraphic.anchoredPosition;
         titleText.localScale = Vector3.zero;
         nameText.localScale = Vector3.zero;
@@ -110,20 +117,23 @@ public class MenuUIAnimator : MonoBehaviour
             StartIdlePop(titleText, ref titleIdleTween);
         });
 
-        // // name pops in 
+        // name pops in 
         introSequence.Append(nameText.DOScale(Vector3.one, textPopDuration).SetEase(popEase));
 
         // buttons slide up to targets, then pop
         introSequence.Append(startButton.DOAnchorPos(startButtonTarget.anchoredPosition, buttonsMoveDuration).SetEase(buttonsMoveEase));
         introSequence.Join(optionsButton.DOAnchorPos(optionsButtonTarget.anchoredPosition, buttonsMoveDuration).SetEase(buttonsMoveEase));
+        introSequence.Join(leaderboardButton.DOAnchorPos(leaderboardButtonTarget.anchoredPosition, buttonsMoveDuration).SetEase(buttonsMoveEase));
 
         introSequence.Join(startButton.DOPunchScale(new Vector3(0.06f, 0.06f, 0f), 0.3f, 10, 0.9f));
         introSequence.Join(optionsButton.DOPunchScale(new Vector3(0.06f, 0.06f, 0f), 0.3f, 10, 0.9f));
+        introSequence.Join(leaderboardButton.DOPunchScale(new Vector3(0.06f, 0.06f, 0f), 0.3f, 10, 0.9f));
 
         introSequence.AppendCallback(() =>
         {
             StartIdlePop(startButton, ref startIdleTween);
             StartIdlePop(optionsButton, ref optionsIdleTween);
+            StartIdlePop(leaderboardButton, ref leaderboardIdleTween);
         });
 
         introSequence.SetUpdate(true);
@@ -159,12 +169,20 @@ public class MenuUIAnimator : MonoBehaviour
             });
     }
     
-    public void HideOptionsPanel()
+    public void OnLeaderboardPressed()
     {
-        if (optionsPanelRoutine != null)
-            StopCoroutine(optionsPanelRoutine);
-        optionsPanelRoutine = StartCoroutine(HideOptionsPanelRoutine());
+        if (leaderboardPanel == null) return;
+        leaderboardPanel.Show();
+        leaderboardPanel.SetStatus("Loading...");
+        leaderboardPanel.FetchAndDisplay();
     }
+    
+    public void OnLeaderboardClosePressed()
+    {
+        if (leaderboardPanel == null) return;
+        leaderboardPanel.Hide();
+    }
+
 
     private IEnumerator HideOptionsPanelRoutine()
     {

@@ -1,12 +1,10 @@
 using UnityEngine;
 
-// Replaces the Item table in planetmirage.db.
-// One asset per powerup type. Assign on PlayerPowerUpSystemLocal.
 [CreateAssetMenu(menuName = "Game/Item Stats", fileName = "ItemStats")]
 public class ItemSO : ScriptableObject
 {
     [Header("Identity")]
-    public string itemKey; // e.g. "trishot", "fireball"
+    public string itemKey; 
 
     [Header("Duration")]
     public float duration = 8f;

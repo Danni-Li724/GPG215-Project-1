@@ -14,14 +14,14 @@ public class FireballEffect : PowerUpEffect
     {
         if (fireballType == null)
         {
-            Debug.LogWarning("FireballEffect: no fireballBulletType assigned on PlayerPowerUpSystem");
+            Debug.LogWarning("FireballEffect: no fire bullet assigned on player");
             return;
         }
         shooter?.ApplyOverride(FireballShotsPerSecond, 1, 0f, fireballType);
         if (BulletManager.Instance != null)
             BulletManager.Instance.UseFireballMode = true;
         else
-            Debug.LogWarning("FireballEffect: BulletManager.Instance is null — ensure BulletManager is in scene");
+            Debug.LogWarning("no BulletManager instance");
     }
 
     public override void Remove()

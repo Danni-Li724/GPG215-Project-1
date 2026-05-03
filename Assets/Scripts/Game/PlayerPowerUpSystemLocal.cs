@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// Replaces PlayerPowerUpSystem. Reads powerup durations from ItemSO assets
-// instead of the SQLite database.
 public class PlayerPowerUpSystemLocal : MonoBehaviour
 {
     [Header("Refs")]
@@ -11,7 +9,7 @@ public class PlayerPowerUpSystemLocal : MonoBehaviour
     [SerializeField] private ShieldHealth  shield;
     [SerializeField] private BulletTypeSO  fireballBulletType;
 
-    [Header("Item SOs — assign one per powerup type")]
+    [Header("Item SOs")]
     [SerializeField] private ItemSO triShotItem;
     [SerializeField] private ItemSO rapidFireItem;
     [SerializeField] private ItemSO shieldItem;
@@ -21,7 +19,7 @@ public class PlayerPowerUpSystemLocal : MonoBehaviour
     [SerializeField] private float triShotSpread       = 40f;
     [SerializeField] private float rapidFireMultiplier = 2.5f;
 
-    [Header("Fallback Durations (used if ItemSO not assigned)")]
+    [Header("Fallback")]
     [SerializeField] private float triShotDuration   = 8f;
     [SerializeField] private float rapidFireDuration  = 6f;
     [SerializeField] private float shieldDuration     = 12f;

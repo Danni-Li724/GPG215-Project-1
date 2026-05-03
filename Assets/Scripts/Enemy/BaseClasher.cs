@@ -6,7 +6,7 @@ public class BaseClasher : MonoBehaviour, ITickable, IDamageable, IHitVFXGetter,
     [Header("Stats Source")]
     [SerializeField] private EnemySO stats;
  
-    [Header("Fallback Stats (used if EnemySO not assigned)")]
+    [Header("Backup Stats")]
     [SerializeField] private int         maxHealth  = 3;
     [SerializeField] private float       speed      = 1.0f;
     [SerializeField] private HitVFXType  hitVFXType = HitVFXType.Default;

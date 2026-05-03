@@ -65,14 +65,68 @@ public class ProceduralMapLocal : MonoBehaviour
         ScrollAndCull();
     }
 
-    public void BeginLevel(int levelId, string spritesSubfolder = "Level1")
+    public void BeginLevel(LevelMapSO map)
     {
+        if (map == null)
+        {
+            Debug.LogWarning("map: null LevelMapSO");
+            return;
+        }
         isReady       = false;
         nextNodeIndex = 0;
         cooldownTimer = 0f;
         ReturnAllToPool();
-        StartCoroutine(InitRoutine(levelId));
+        StartCoroutine(InitRoutineFromSO(map));
     }
+    
+    private IEnumerator InitRoutineFromSO(LevelMapSO map)
+    {
+        foreach (var t in nodeTypes)
+        {
+            if (!pools.ContainsKey(t.key))
+                pools[t.key] = new Queue<PooledNode>();
+            for (int i = 0; i < t.prewarmCount; i++)
+            {
+                pools[t.key].Enqueue(CreateNode(t.key));
+                yield return null;
+            }
+        }
+
+        layout = new MapLayoutData();
+        layout.nodes = new List<MapNodeDefinition>();
+
+        foreach (var entry in map.nodes)
+        {
+            layout.nodes.Add(new MapNodeDefinition
+            {
+                nodeType      = entry.nodeType,
+                spawnDistance = entry.spawnDistance,
+                scaleMin      = entry.scaleMin,
+                scaleMax      = entry.scaleMax,
+                layer         = entry.layer,
+                variationCount = entry.sprites != null ? entry.sprites.Length : 0
+            });
+        }
+        
+        foreach (var entry in map.nodes)
+        {
+            if (!typeLookup.ContainsKey(entry.nodeType) && entry.sprites != null && entry.sprites.Length > 0)
+            {
+                NodeType nt = new NodeType
+                {
+                    key          = entry.nodeType,
+                    sprites      = entry.sprites,
+                    prewarmCount = 0
+                };
+                typeLookup[entry.nodeType] = nt;
+            }
+        }
+
+        layout.nodes.Sort((a, b) => a.spawnDistance.CompareTo(b.spawnDistance));
+        isReady = true;
+        Debug.Log($"map: ready from SO — {layout.nodes.Count} nodes");
+    }
+
 
     public void SetEnabled(bool value)
     {
@@ -100,7 +154,7 @@ public class ProceduralMapLocal : MonoBehaviour
 
         if (string.IsNullOrWhiteSpace(json))
         {
-            Debug.LogWarning($"ProceduralMapLocal: no map found for level {levelId}");
+            Debug.LogWarning($"map: no map found for level {levelId}");
             yield break;
         }
 
@@ -109,11 +163,11 @@ public class ProceduralMapLocal : MonoBehaviour
             layout = JsonUtility.FromJson<MapLayoutData>(json);
             layout.nodes.Sort((a, b) => a.spawnDistance.CompareTo(b.spawnDistance));
             isReady = true;
-            Debug.Log($"ProceduralMapLocal: ready — {layout.nodes.Count} nodes");
+            Debug.Log($"map: ready — {layout.nodes.Count} nodes");
         }
         catch (System.Exception e)
         {
-            Debug.LogWarning($"ProceduralMapLocal: JSON parse failed: {e.Message}");
+            Debug.LogWarning($"map: JSON parse failed: {e.Message}");
         }
     }
 

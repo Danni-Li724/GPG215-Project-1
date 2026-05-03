@@ -20,6 +20,8 @@ public class JoystickInput : MonoBehaviour
     private int fingerId = -1; 
     private Vector2 pressedPos;
     [SerializeField] private Vector2 centerAnchorPos;
+    private Vector2 touchAnchorStart;
+
 
     private void Awake()
     {
@@ -104,12 +106,25 @@ public class JoystickInput : MonoBehaviour
 
     private void BeginPress(int fingerId, Vector2 screenPos)
     {
-        // mark state
+        // // mark state
+        // isPressed = true;
+        // this.fingerId = fingerId;
+        // pressingTime = Time.unscaledTime; // unscaled so UI input isn't affected by slow motion/pause
+        // pressedPos = screenPos;
+        // // start model (state resets)
+        // joystickModel.Begin();
+        // if (joystickView != null)
+        //     joystickView.SnapHandleToCenter();
+        
         isPressed = true;
         this.fingerId = fingerId;
-        pressingTime = Time.unscaledTime; // unscaled so UI input isn't affected by slow motion/pause
+        pressingTime = Time.unscaledTime;
         pressedPos = screenPos;
-        // start model (state resets)
+
+        // now converts the touch/click position to anchored space and use
+        // it as the dynamic center so drag works from anywhere on screen
+        touchAnchorStart = ScreenToAnchored(joystickCanvasRoot, screenPos);
+
         joystickModel.Begin();
         if (joystickView != null)
             joystickView.SnapHandleToCenter();
@@ -130,11 +145,18 @@ public class JoystickInput : MonoBehaviour
             return;
         }
         Vector2 currentAnchored = ScreenToAnchored(joystickCanvasRoot, currentScreenPos);
-        // finger delta from joystick center
-        Vector2 delta = currentAnchored - centerAnchorPos;
-        // feed delta to model (clamps + normalizes + deadzone)
+        // // finger delta from joystick center
+        // Vector2 delta = currentAnchored - centerAnchorPos;
+        // // feed delta to model (clamps + normalizes + deadzone)
+        // joystickModel.UpdateDrag(delta);
+        // // inform visuals from model
+        // if (joystickView != null)
+        //     joystickView.SetHandleFromValue(joystickModel.direction);
+        
+        Vector2 delta = currentAnchored - touchAnchorStart;
+        // Vector2 delta = currentAnchored - dynamicCenterAnchorPos;
+
         joystickModel.UpdateDrag(delta);
-        // inform visuals from model
         if (joystickView != null)
             joystickView.SetHandleFromValue(joystickModel.direction);
     }
@@ -144,6 +166,12 @@ public class JoystickInput : MonoBehaviour
         isPressed = false;
         fingerId = -1;
         joystickModel.End();
+        // if (joystickView != null)
+        //     joystickView.SnapHandleToCenter();
+        
+        if (joystickView != null)
+            joystickView.SetCenter(centerAnchorPos);
+
         if (joystickView != null)
             joystickView.SnapHandleToCenter();
     }

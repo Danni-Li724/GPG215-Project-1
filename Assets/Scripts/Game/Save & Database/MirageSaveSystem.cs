@@ -34,7 +34,7 @@ public class MirageSaveSystem : MonoBehaviour
             }
             catch (System.Exception e)
             {
-                Debug.LogWarning($"MirageSaveSystem: settings parse failed: {e.Message}");
+                Debug.LogWarning($"save: settings parse failed: {e.Message}");
             }
         }
         return new SettingsData();
@@ -57,7 +57,7 @@ public class MirageSaveSystem : MonoBehaviour
             }
             catch (System.Exception e)
             {
-                Debug.LogWarning($"MirageSaveSystem: best run parse failed: {e.Message}");
+                Debug.LogWarning($"save: best run parse failed: {e.Message}");
             }
         }
         return new RunResultData();

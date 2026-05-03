@@ -12,7 +12,6 @@ public class TriShotEffect : PowerUpEffect
 
     public override void Apply()
     {
-        // -1 / null means "don't change this param"
         shooter?.ApplyOverride(-1f, 3, spreadDegrees, null);
     }
 

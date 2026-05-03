@@ -2,15 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// Reads from LevelMapSO instead of JSON/StreamingAssets.
-// No asset bundles, no streaming — all sprites assigned directly in SO.
-// Pools prewarmed one instance per frame to avoid frame spikes.
-public class ProceduralMapGeneratorLocal : MonoBehaviour
+/// <summary>
+/// NOT IN USE ATM
+/// </summary>
+public class ProceduralMapGenerator : MonoBehaviour
 {
     [System.Serializable]
     public class NodeTypeConfig
     {
-        public string nodeType;      // matches LevelMapSO.MapNodeEntry.nodeType
+        public string nodeType;    
         public int    prewarmCount = 3;
     }
 
@@ -40,8 +40,7 @@ public class ProceduralMapGeneratorLocal : MonoBehaviour
     [SerializeField] private float asteroidSpeedMax = 1.8f;
     [SerializeField] private float asteroidAngleMin = 10f;
     [SerializeField] private float asteroidAngleMax = 40f;
-
-    // runtime
+    
     private LevelMapSO    currentMap;
     private int           nextNodeIndex;
     private bool          isReady;
@@ -61,8 +60,6 @@ public class ProceduralMapGeneratorLocal : MonoBehaviour
         public Vector2        velocity;
     }
 
-    // ── Public API ────────────────────────────────────────────────────────
-
     public void BeginLevel(LevelMapSO map)
     {
         currentMap    = map;
@@ -80,11 +77,8 @@ public class ProceduralMapGeneratorLocal : MonoBehaviour
             if (n.root != null) n.root.SetActive(value);
     }
 
-    // ── Init ──────────────────────────────────────────────────────────────
-
     private IEnumerator PrewarmThenReady()
     {
-        // prewarm one instance per frame — no spike
         foreach (var cfg in nodeConfigs)
         {
             if (!pools.ContainsKey(cfg.nodeType))
@@ -99,17 +93,15 @@ public class ProceduralMapGeneratorLocal : MonoBehaviour
 
         if (currentMap == null)
         {
-            Debug.LogWarning("ProceduralMapGeneratorLocal: no LevelMapSO assigned");
+            Debug.LogWarning("map: no LevelMapSO assigned");
             yield break;
         }
-
-        // sort nodes by spawnDistance
+        
         currentMap.nodes.Sort((a, b) => a.spawnDistance.CompareTo(b.spawnDistance));
         isReady = true;
-        Debug.Log($"ProceduralMapGeneratorLocal: ready — {currentMap.nodes.Count} nodes");
+        Debug.Log($"map: ready — {currentMap.nodes.Count} nodes");
     }
-
-    // ── Update ────────────────────────────────────────────────────────────
+    
 
     private void Update()
     {
@@ -143,8 +135,7 @@ public class ProceduralMapGeneratorLocal : MonoBehaviour
         node.sr.sortingOrder           = def.layer;
         node.isAsteroid                = false;
         node.velocity                  = Vector2.zero;
-
-        // assign sprite
+        
         if (def.sprites != null && def.sprites.Length > 0)
         {
             int idx = def.sprites.Length > 1
@@ -152,13 +143,11 @@ public class ProceduralMapGeneratorLocal : MonoBehaviour
                 : 0;
             node.sr.sprite = def.sprites[idx];
         }
-
-        // alpha
+        
         Color c = Color.white;
         c.a = Mathf.Clamp01(def.alpha);
         node.sr.color = c;
-
-        // asteroid diagonal movement
+        
         if (def.nodeType == "asteroid")
         {
             node.isAsteroid = true;
@@ -195,8 +184,7 @@ public class ProceduralMapGeneratorLocal : MonoBehaviour
             }
         }
     }
-
-    // ── Pool ──────────────────────────────────────────────────────────────
+    
 
     private PooledNode GetFromPool(string key)
     {
